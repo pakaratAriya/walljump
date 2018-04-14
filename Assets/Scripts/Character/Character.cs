@@ -52,7 +52,7 @@ public class Character : MonoBehaviour {
             rb.velocity = new Vector3(10 * direction, power, 0);
             direction *= -1;
             power = 0;
-            rb.gravityScale = 2;
+            rb.gravityScale = 1;
             WallJumpParticle par = PoolManager.Spawn("dustParticle");
             par.transform.position = transform.position + Vector3.up*1 + Vector3.left * transform.localScale.x * 0.2f;
         }

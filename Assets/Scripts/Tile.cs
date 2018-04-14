@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour {
 	void Update () {
 		if (transform.position.y <= MapManager.player.transform.position.y - updateLength)
         {
-            MapManager.ChangePosition(this);
+            MapManager.Despawn(this);
         }
 	}
 

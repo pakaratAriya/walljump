@@ -56,72 +56,77 @@ public class MapManager : MonoBehaviour {
                 if (j < -halfGap || j > halfGap)
                 {
                     tile = Spawn("BlockTile");
-                    tile.transform.position = new Vector3(j, currentPoint, 0);
-                    tile.transform.SetParent(transform);
                     tile.name = "BlockTile";
                 } else if (j == -halfGap) {
                     tile = Spawn("BlockLeft");
-                    tile.transform.position = new Vector3(j, currentPoint, 0);
-                    tile.transform.SetParent(transform);
                     tile.name = "BlockLeft";
                 } else if (j == halfGap)
                 {
                     tile = Spawn("BlockRight");
+                    tile.name = "BlockRight";
+                }
+                if (tile != null)
+                {
                     tile.transform.position = new Vector3(j, currentPoint, 0);
                     tile.transform.SetParent(transform);
-                    tile.name = "BlockRight";
                 }
 
             }
         }
 	}
 
-    public static void ChangePosition(Tile tile)
+    private void Update()
     {
-        Vector3 tempPos = tile.transform.position;
-        
-        if (tile.transform.position.x == -halfGap)
+        if (player.transform.position.y > 40 && player.transform.position.y < 80)
         {
-            float gen = Random.Range(0f, 100f);
-            if (gen <= findMap.obsChance)
-            {
-                if(tile.name != "SpikeLeft")
-                {
-                    Despawn(tile);
-                    tile = Spawn("SpikeLeft");
-                }
-            } else
-            {
-                if (tile.name != "BlockLeft")
-                {
-                    Despawn(tile);
-                    tile = Spawn("BlockLeft");
-                }
-            }
+            halfGap = 4;
+        } else
+        {
+            halfGap = 3;
         }
+        if (currentPoint - player.transform.position.y <= upperBoundary)
+        {
+            ChangePosition();
+        }
+    }
 
-        if (tile.transform.position.x == halfGap)
+    public static void ChangePosition()
+    {
+        while (currentPoint <= player.transform.position.y + upperBoundary)
         {
-            float gen = Random.Range(0f, 100f);
-            if (gen <= findMap.obsChance)
+            for (int j = -20; j <= 20; j++)
             {
-                if (tile.name != "SpikeRight")
+                string whatToSpawn = "";
+                Tile tile = null;
+                if (j < -halfGap || j > halfGap)
                 {
-                    Despawn(tile);
-                    tile = Spawn("SpikeRight");
+                    whatToSpawn = "BlockTile";
+                }
+                else if (j == -halfGap)
+                {
+                    float gen = Random.Range(0f, 100f);
+                    whatToSpawn = (gen <= findMap.obsChance) ? "SpikeLeft" : "BlockLeft";
+                }
+                else if (j == halfGap)
+                {
+                    float gen = Random.Range(0f, 100f);
+                    whatToSpawn = (gen <= findMap.obsChance) ? "SpikeRight" : "BlockRight";
+                }
+                if (whatToSpawn != "")
+                {
+                    tile = Spawn(whatToSpawn);
+                    tile.transform.position = new Vector3(j, currentPoint, 0);
+                    tile.transform.SetParent(findMap.transform);
                 }
             }
-            else
+            if (currentPoint % 10 == 0)
             {
-                if (tile.name != "BlockRight")
-                {
-                    Despawn(tile);
-                    tile = Spawn("BlockRight");
-                }
+                Tile bg = Spawn("background");
+                bg.transform.position = new Vector3(0, currentPoint, 0);
+                bg.transform.SetParent(findMap.transform);
             }
+            currentPoint++;
         }
-        tile.transform.position = new Vector3(tempPos.x, tempPos.y + upperBoundary + 10, 0);
-        tile.transform.SetParent(findMap.transform);
     }
 
     public static Tile Spawn(string name)
