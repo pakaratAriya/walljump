@@ -8,6 +8,8 @@ public class CharacterGuage : MonoBehaviour {
     SpriteRenderer sr;
     float alpha = 0f;
     Vector3 oScale;
+    float belowDistance = 0.5f;
+    float offsetDistance = 0.4f;
 	// Use this for initialization
 	void Start () {
         character = FindObjectOfType<Character>();
@@ -17,7 +19,7 @@ public class CharacterGuage : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.position = character.transform.position - Vector3.up * 0.75f - Vector3.right * 0.4f;
+        transform.position = character.transform.position - Vector3.up * belowDistance - Vector3.right * offsetDistance;
 		if (character.charging)
         {
             alpha = (alpha <= 1) ? alpha + 0.05f : 1;
