@@ -14,10 +14,21 @@ public class PoolManager : MonoBehaviour {
         parList.AddRange(Resources.LoadAll<WallJumpParticle>("Particles"));
         foreach (WallJumpParticle par in parList)
         {
-            particleBook.Add(par.name, par);
-            particlePool[par.name] = new Stack<WallJumpParticle>();
+            if (!particleBook.ContainsKey(par.name))
+            {
+                particleBook.Add(par.name, par);
+                particlePool[par.name] = new Stack<WallJumpParticle>();
+            }
+            
         }
     }
+
+    public static void ResetValue()
+    {
+        particleBook.Clear();
+        particlePool.Clear();
+    }
+
     public static WallJumpParticle Spawn(string name)
     {
         WallJumpParticle par = null;

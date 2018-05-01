@@ -7,9 +7,14 @@ public class MapManager : MonoBehaviour {
     private List<Tile> tileList = new List<Tile>();
     private List<Tile> obstacleList = new List<Tile>();
     private static Tile bgTile;
+    private static List<Tile> obsLeft = new List<Tile>();
+    private static List<Tile> obsRight = new List<Tile>();
+    private static List<Enemy> enemies = new List<Enemy>();
 
     private static Dictionary<string, Tile> tileBook = new Dictionary<string, Tile>();
     private static Dictionary<string, Stack<Tile>> tilePool = new Dictionary<string, Stack<Tile>>();
+    private static Dictionary<string, Enemy> enemyBook = new Dictionary<string, Enemy>();
+    private static Dictionary<string, Stack<Enemy>> enemyPool = new Dictionary<string, Stack<Enemy>>();
 
     public static int halfGap = 3;
     public static int upperBoundary = 30;
@@ -18,29 +23,74 @@ public class MapManager : MonoBehaviour {
     public static int currentPoint = -10;
     public static MapManager findMap;
 
+
+
     private void Awake()
     {
         player = FindObjectOfType<Character>();
         findMap = FindObjectOfType<MapManager>();
     }
 
+    public static void ResetValue()
+    {
+        obsLeft.Clear();
+        obsRight.Clear();
+        tileBook.Clear();
+        tilePool.Clear();
+        enemyBook.Clear();
+        enemyPool.Clear();
+        halfGap = 3;
+        upperBoundary = 30;
+        currentPoint = -10;
+
+    }
+
     // Use this for initialization
     void Start() {
         tileList.AddRange(Resources.LoadAll<Tile>("Tiles" + level));
         obstacleList.AddRange(Resources.LoadAll<Tile>("Obstacle" + level));
+        enemies.AddRange(Resources.LoadAll<Enemy>("Enemies"));
         bgTile = Resources.Load<Tile>("Background" + level + "/background");
-        tileBook.Add(bgTile.name, bgTile);
+        if (!tileBook.ContainsKey(bgTile.name))
+            tileBook.Add(bgTile.name, bgTile);
         tilePool[bgTile.name] = new Stack<Tile>();
+        foreach (Tile tile in obstacleList)
+        {
+            if (tile.name.Contains("Left"))
+            {
+                obsLeft.Add(tile);
+            } else if (tile.name.Contains("Right"))
+            {
+                obsRight.Add(tile);
+            }
+        }
         foreach (Tile tile in tileList)
         {
-            tileBook.Add(tile.name, tile);
-            tilePool[tile.name] = new Stack<Tile>();
+            if (!tileBook.ContainsKey(tile.name))
+            {
+                tileBook.Add(tile.name, tile);
+                tilePool[tile.name] = new Stack<Tile>();
+            }
+            
         }
         foreach (Tile tile in obstacleList)
         {
-            tileBook.Add(tile.name, tile);
-            tilePool[tile.name] = new Stack<Tile>();
+            if (!tileBook.ContainsKey(tile.name))
+            {
+                tileBook.Add(tile.name, tile);
+                tilePool[tile.name] = new Stack<Tile>();
+            }
         }
+
+        foreach (Enemy enemy in enemies)
+        {
+            if (!enemyBook.ContainsKey(enemy.name))
+            {
+                enemyBook.Add(enemy.name, enemy);
+                enemyPool[enemy.name] = new Stack<Enemy>();
+            }
+        }
+
         for(int i = -10; i < upperBoundary; i += 10)
         {
             Tile bg = Spawn("background");
@@ -105,12 +155,14 @@ public class MapManager : MonoBehaviour {
                 else if (j == -halfGap)
                 {
                     float gen = Random.Range(0f, 100f);
-                    whatToSpawn = (gen <= findMap.obsChance) ? "SpikeLeft" : "BlockLeft";
+                    int rand = Random.Range(0, obsLeft.Count);
+                    whatToSpawn = (gen <= findMap.obsChance) ? obsLeft[rand].name : "BlockLeft";
                 }
                 else if (j == halfGap)
                 {
                     float gen = Random.Range(0f, 100f);
-                    whatToSpawn = (gen <= findMap.obsChance) ? "SpikeRight" : "BlockRight";
+                    int rand = Random.Range(0, obsLeft.Count);
+                    whatToSpawn = (gen <= findMap.obsChance) ? obsRight[rand].name : "BlockRight";
                 }
                 if (whatToSpawn != "")
                 {
@@ -150,5 +202,28 @@ public class MapManager : MonoBehaviour {
     {
         tilePool[tile.name].Push(tile);
         tile.gameObject.SetActive(false);
+    }
+
+    public static Enemy SpawnEnemy(string name)
+    {
+        Enemy enemy = null;
+        if (enemyPool[name].Count <= 1)
+        {
+            enemy = Instantiate<Enemy>(enemyBook[name]);
+            enemy.name = name;
+        }
+        else
+        {
+            enemy = enemyPool[name].Pop();
+            enemy.gameObject.SetActive(true);
+        }
+        enemy.transform.SetParent(findMap.transform);
+        return enemy;
+    }
+
+    public static void DespawnEnemy(Enemy enemy)
+    {
+        enemyPool[enemy.name].Push(enemy);
+        enemy.gameObject.SetActive(false);
     }
 }
