@@ -29,7 +29,7 @@ public class DustParticle : WallJumpParticle {
         spt.color = new Color(originColor.r, originColor.g, originColor.b, alpha);
         if (alpha <=0)
         {
-            PoolManager.Despawn(this);
+            
         }
     }
 

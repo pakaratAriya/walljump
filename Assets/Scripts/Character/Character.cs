@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Character : Unit {
 
-    bool closeWall = true;
+    internal bool closeWall = true;
     public int direction = 1;
     internal Rigidbody2D rb;
     public float minPow = 8;
@@ -30,18 +30,20 @@ public class Character : Unit {
         {
             return;
         }
-		if (Input.GetKeyDown(KeyCode.Space) && GetCloseWall())
+		if (Input.GetKeyDown(KeyCode.Space))
         {
-            charging = true;
+            if (closeWall)
+            {
+                charging = true;
+            }
         }
         if (charging)
         {
             StartCharging();
         }
-        if (Input.GetKeyUp(KeyCode.Space) && charging)
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             Jump();
-            charging = false;
         }
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
@@ -74,6 +76,10 @@ public class Character : Unit {
         {
             return;
         }
+        if (Mathf.Abs(col.transform.position.x) - Mathf.Abs(transform.position.x) <= 0.3f)
+        {
+            return;
+        }
         closeWall = true;
         rb.gravityScale = 0;
         rb.velocity = Vector3.zero;
@@ -81,9 +87,12 @@ public class Character : Unit {
         dashing = false;
     }
 
-    private void Jump()
+    /// <summary>
+    /// the player makes a jump
+    /// </summary>
+    public void Jump()
     {
-        if (closeWall)
+        if (closeWall && charging)
         {
             power = (power >= minPow) ? power : minPow;
             closeWall = false;
@@ -91,8 +100,9 @@ public class Character : Unit {
             direction *= -1;
             power = 0;
             rb.gravityScale = 1.5f;
-            WallJumpParticle par = PoolManager.Spawn("dustParticle");
+            ParticleSystem par = PoolManager.Spawn("dustParticle");
             par.transform.position = transform.position + Vector3.up*1 + Vector3.left * transform.localScale.x * 0.2f;
+            charging = false;
         }
     }
 
@@ -113,8 +123,8 @@ public class Character : Unit {
         if (CanSlide())
         {
             transform.Translate(0, -3 * Time.deltaTime, 0);
-            WallJumpParticle par = PoolManager.Spawn("dustParticle");
-            par.transform.position = transform.position + Vector3.up * 1 + Vector3.left * transform.localScale.x * 0.2f;
+            ParticleSystem par = PoolManager.Spawn("dustParticle");
+            par.transform.position = transform.position + Vector3.up * 0.5f + Vector3.left * transform.localScale.x * 0.2f;
             sliding = true;
         }
         
@@ -125,21 +135,30 @@ public class Character : Unit {
     {
         RaycastHit2D hits;
         RaycastHit2D hitsDown;
-        hits = Physics2D.Raycast(transform.position + Vector3.down * 0.4f, Vector3.down, 0.2f, ~LayerMask.GetMask("player"));
+        hits = Physics2D.Raycast(transform.position + Vector3.down * 0.4f, Vector3.down, 0.3f, ~LayerMask.GetMask("player"));
         hitsDown = Physics2D.Raycast(transform.position + Vector3.down * 0.4f, Vector3.down + Vector3.left * transform.localScale.x, 0.7f, ~LayerMask.GetMask("player"));
+        
         if (hits.collider != null) 
         {
+            print(hits.collider.name);
             return (hits.collider.GetComponent<Tile>() == null);
         }
         return hitsDown.collider != null;
     }
 
-    private void StartCharging()
+    /// <summary>
+    /// player start charging.
+    /// </summary>
+    public void StartCharging()
     {
-        power = (power >= maxPow) ? maxPow : power + chargeRate;
+        if (GetCloseWall())
+        {
+            charging = true;
+            power = (power >= maxPow) ? maxPow : power + chargeRate;
+        } 
     }
 
-    private void Dash()
+    public void Dash()
     {
         rb.velocity = new Vector3(20 * transform.localScale.x, 0, 0);
         rb.gravityScale = 0.2f;

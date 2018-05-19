@@ -6,6 +6,7 @@ public class MapManager : MonoBehaviour {
     public static Character player;
     private List<Tile> tileList = new List<Tile>();
     private List<Tile> obstacleList = new List<Tile>();
+    private List<Tile> pickupList = new List<Tile>();
     private static Tile bgTile;
     private static List<Tile> obsLeft = new List<Tile>();
     private static List<Tile> obsRight = new List<Tile>();
@@ -16,12 +17,17 @@ public class MapManager : MonoBehaviour {
     private static Dictionary<string, Enemy> enemyBook = new Dictionary<string, Enemy>();
     private static Dictionary<string, Stack<Enemy>> enemyPool = new Dictionary<string, Stack<Enemy>>();
 
-    public static int halfGap = 3;
     public static int upperBoundary = 30;
     public int level = 1;
     public float obsChance = 0.03f;
     public static int currentPoint = -10;
     public static MapManager findMap;
+    public bool autoGenerate = true;
+    public static float startGap = 3;
+    public static float endGap = 3;
+    // use to manipulate creating leftTile when CurveLeftIn
+    private static bool leftDelay = false;
+    private static bool rightDelay = false;
 
 
 
@@ -39,7 +45,8 @@ public class MapManager : MonoBehaviour {
         tilePool.Clear();
         enemyBook.Clear();
         enemyPool.Clear();
-        halfGap = 3;
+        startGap = 3;
+        endGap = 3;
         upperBoundary = 30;
         currentPoint = -10;
 
@@ -50,10 +57,18 @@ public class MapManager : MonoBehaviour {
         tileList.AddRange(Resources.LoadAll<Tile>("Tiles" + level));
         obstacleList.AddRange(Resources.LoadAll<Tile>("Obstacle" + level));
         enemies.AddRange(Resources.LoadAll<Enemy>("Enemies"));
+        pickupList.AddRange(Resources.LoadAll<Tile>("Items"));
         bgTile = Resources.Load<Tile>("Background" + level + "/background");
         if (!tileBook.ContainsKey(bgTile.name))
             tileBook.Add(bgTile.name, bgTile);
         tilePool[bgTile.name] = new Stack<Tile>();
+        for (int i = -10; i < upperBoundary; i += 10)
+        {
+            Tile bg = Spawn("background");
+            bg.transform.position = new Vector3(0, i, 0);
+            bg.transform.SetParent(transform);
+            bg.name = "background";
+        }
         foreach (Tile tile in obstacleList)
         {
             if (tile.name.Contains("Left"))
@@ -82,6 +97,15 @@ public class MapManager : MonoBehaviour {
             }
         }
 
+        foreach (Tile tile in pickupList)
+        {
+            if (!tileBook.ContainsKey(tile.name))
+            {
+                tileBook.Add(tile.name, tile);
+                tilePool[tile.name] = new Stack<Tile>();
+            }
+        }
+
         foreach (Enemy enemy in enemies)
         {
             if (!enemyBook.ContainsKey(enemy.name))
@@ -91,29 +115,29 @@ public class MapManager : MonoBehaviour {
             }
         }
 
-        for(int i = -10; i < upperBoundary; i += 10)
-        {
-            Tile bg = Spawn("background");
-            bg.transform.position = new Vector3(0, i, 0);
-            bg.transform.SetParent(transform);
-            bg.name = "background";
-        }
+
         for (; currentPoint < upperBoundary; currentPoint++)
         {
             for (int j = -20; j <= 20; j++)
             {
+                bool canSpawn = CanSpawn(new Vector2(j, currentPoint));
                 Tile tile = null;
-                if (j < -halfGap || j > halfGap)
+                if ((j < -startGap || j > endGap) && canSpawn)
                 {
                     tile = Spawn("BlockTile");
-                    tile.name = "BlockTile";
-                } else if (j == -halfGap) {
+                } else if (j == -startGap && canSpawn && !leftDelay) {
                     tile = Spawn("BlockLeft");
-                    tile.name = "BlockLeft";
-                } else if (j == halfGap)
+                } else if (j == endGap && canSpawn)
                 {
-                    tile = Spawn("BlockRight");
-                    tile.name = "BlockRight";
+                    if (rightDelay)
+                    {
+                        tile = Spawn("BlockTile");
+                    }
+                    else
+                    {
+                        tile = Spawn("BlockRight");
+                    }
+                    
                 }
                 if (tile != null)
                 {
@@ -122,21 +146,23 @@ public class MapManager : MonoBehaviour {
                 }
 
             }
+            leftDelay = false;
+            rightDelay = false;
         }
 	}
 
     private void Update()
     {
-        if (player.transform.position.y > 40 && player.transform.position.y < 80)
-        {
-            halfGap = 4;
-        } else
-        {
-            halfGap = 3;
-        }
         if (currentPoint - player.transform.position.y <= upperBoundary)
         {
-            ChangePosition();
+            if (autoGenerate)
+            {
+                ChangePosition();
+            } else
+            {
+                SetPosition();
+            }
+            
         }
     }
 
@@ -148,17 +174,17 @@ public class MapManager : MonoBehaviour {
             {
                 string whatToSpawn = "";
                 Tile tile = null;
-                if (j < -halfGap || j > halfGap)
+                if (j < -startGap || j > endGap)
                 {
                     whatToSpawn = "BlockTile";
                 }
-                else if (j == -halfGap)
+                else if (j == -startGap)
                 {
                     float gen = Random.Range(0f, 100f);
                     int rand = Random.Range(0, obsLeft.Count);
                     whatToSpawn = (gen <= findMap.obsChance) ? obsLeft[rand].name : "BlockLeft";
                 }
-                else if (j == halfGap)
+                else if (j == endGap)
                 {
                     float gen = Random.Range(0f, 100f);
                     int rand = Random.Range(0, obsLeft.Count);
@@ -177,6 +203,54 @@ public class MapManager : MonoBehaviour {
                 bg.transform.position = new Vector3(0, currentPoint, 0);
                 bg.transform.SetParent(findMap.transform);
             }
+            currentPoint++;
+        }
+    }
+
+    public static void SetPosition()
+    {
+        while (currentPoint <= player.transform.position.y + upperBoundary)
+        {
+            
+            for (int j = -20; j <= 20; j++)
+            {
+                bool canSpawn = CanSpawn(new Vector2(j, currentPoint));
+                string whatToSpawn = "";
+                Tile tile = null;
+                if ((j < -startGap || j > endGap) && canSpawn)
+                {
+                    whatToSpawn = "BlockTile";
+                }
+                else if (j == -startGap && !leftDelay && canSpawn)
+                {
+                    whatToSpawn = "BlockLeft";
+                    
+                }
+                else if (j == endGap && canSpawn)
+                {
+                    if (rightDelay)
+                    {
+                        whatToSpawn = "BlockTile";
+                    } else
+                    {
+                        whatToSpawn = "BlockRight";
+                    }
+                }
+                if (whatToSpawn != "")
+                {
+                    tile = Spawn(whatToSpawn);
+                    tile.transform.position = new Vector3(j, currentPoint, 0);
+                    tile.transform.SetParent(findMap.transform);
+                }
+            }
+            if (currentPoint % 10 == 0)
+            {
+                Tile bg = Spawn("background");
+                bg.transform.position = new Vector3(0, currentPoint, 0);
+                bg.transform.SetParent(findMap.transform);
+            }
+            leftDelay = false;
+            rightDelay = false;
             currentPoint++;
         }
     }
@@ -225,5 +299,34 @@ public class MapManager : MonoBehaviour {
     {
         enemyPool[enemy.name].Push(enemy);
         enemy.gameObject.SetActive(false);
+    }
+
+    public static bool CanSpawn(Vector2 pos)
+    {
+        bool canSpawn = true;
+        if (Physics2D.OverlapPoint(pos) != null)
+        {
+            canSpawn = false;
+            /// check if the object is a turning point or not
+            /// if it is, change the start point
+            /// 
+            string detectedObj = Physics2D.OverlapPoint(pos).name;
+            if (detectedObj.Contains("LeftIn"))
+            {
+                startGap--;
+                leftDelay = true;
+            } else if (detectedObj.Contains("LeftOut"))
+            {
+                startGap++;
+            } else if (detectedObj.Contains("CurveRightIn"))
+            {
+                endGap--;
+            } else if (detectedObj.Contains("CurveRightOut"))
+            {
+                endGap++;
+                rightDelay = true;
+            }
+        }
+        return canSpawn;
     }
 }

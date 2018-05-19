@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour {
 
-    private static Dictionary<string, WallJumpParticle> particleBook = new Dictionary<string, WallJumpParticle>();
-    private static Dictionary<string, Stack<WallJumpParticle>> particlePool = new Dictionary<string, Stack<WallJumpParticle>>();
-    List<WallJumpParticle> parList = new List<WallJumpParticle>();
+    private static Dictionary<string, ParticleSystem> particleBook = new Dictionary<string, ParticleSystem>();
+    private static Dictionary<string, Stack<ParticleSystem>> particlePool = new Dictionary<string, Stack<ParticleSystem>>();
+    List<ParticleSystem> parList = new List<ParticleSystem>();
     private static PoolManager poolManager;
     // Use this for initialization
     void Start () {
         poolManager = this;
-        parList.AddRange(Resources.LoadAll<WallJumpParticle>("Particles"));
-        foreach (WallJumpParticle par in parList)
+        parList.AddRange(Resources.LoadAll<ParticleSystem>("Particles"));
+        foreach (ParticleSystem par in parList)
         {
             if (!particleBook.ContainsKey(par.name))
             {
                 particleBook.Add(par.name, par);
-                particlePool[par.name] = new Stack<WallJumpParticle>();
+                particlePool[par.name] = new Stack<ParticleSystem>();
             }
             
         }
@@ -29,12 +29,12 @@ public class PoolManager : MonoBehaviour {
         particlePool.Clear();
     }
 
-    public static WallJumpParticle Spawn(string name)
+    public static ParticleSystem Spawn(string name)
     {
-        WallJumpParticle par = null;
+        ParticleSystem par = null;
         if (particlePool[name].Count <= 1)
         {
-            par = Instantiate<WallJumpParticle>(particleBook[name]);
+            par = Instantiate<ParticleSystem>(particleBook[name]);
             par.name = name;
         }
         else
@@ -46,7 +46,7 @@ public class PoolManager : MonoBehaviour {
         return par;
     }
 
-    public static void Despawn(WallJumpParticle par)
+    public static void Despawn(ParticleSystem par)
     {
         particlePool[par.name].Push(par);
         par.gameObject.SetActive(false);

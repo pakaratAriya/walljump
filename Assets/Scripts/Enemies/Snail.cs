@@ -6,7 +6,7 @@ public class Snail : Enemy {
 
     private float speed = 1;
     public state snailState = state.Idle;
-    private float initLength = 10;
+    private float initLength = 15;
     private float facingDirection = -1;
 
 
@@ -27,6 +27,8 @@ public class Snail : Enemy {
         deathZone.enable = true;
         rb.freezeRotation = true;
         rb.gravityScale = 0;
+        originalScale = transform.localScale.x;
+        direction = new Vector3(originalScale, 0, 0);
 
     }
 
@@ -55,12 +57,12 @@ public class Snail : Enemy {
             if ((hits.collider.GetComponent<DeathZone>() != null && hits.collider.GetComponent<DeathZone>() != deathZone)
                 || hits.collider.GetComponent<TrapTrigger>() != null || hits.collider.GetComponent<Tile>() != null)
             {
-
                 TurnBack();
             }
         }
         if (hitsDown.collider == null)
         {
+            print(facingDirection);
             TurnBack();
         }
 

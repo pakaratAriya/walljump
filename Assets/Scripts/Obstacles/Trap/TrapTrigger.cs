@@ -6,12 +6,10 @@ public class TrapTrigger : MonoBehaviour {
     private Animator anim;
     public DeathZone deathZone;
     private Vector3 firstScale;
-    private Vector3 firstPos;
     private void Awake()
     {
         anim = GetComponent<Animator>();
         deathZone = GetComponentInChildren<DeathZone>();
-        firstPos = transform.localPosition;
     }
 
     private void OnEnable()
