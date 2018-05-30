@@ -17,10 +17,12 @@ public class Character : Unit {
     public bool dashing = false;
     public bool dead = false;
     public bool invulnerable = false;
+    internal Animator anim;
 
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         
 	}
 	
@@ -49,24 +51,34 @@ public class Character : Unit {
         {
             if (rb.gravityScale != 0)
             {
-                Dash();
+                rb.gravityScale = 0;
+                rb.velocity = Vector3.zero;
+                anim.SetBool("Dash", true);
+                Invoke("Dash", 0.2f);
+
             }
             else if (charging)
             {
                 charging = false;
                 power = 0;
+                anim.SetBool("Charging", false);
             } else
             {
                 sliding = true;
             }
         }
+
         if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             sliding = false;
         }
             if (sliding)
         {
+            anim.SetBool("Slide", true);
             Slide();
+        } else
+        {
+            anim.SetBool("Slide", false);
         }
 	}
 
@@ -80,6 +92,8 @@ public class Character : Unit {
         {
             return;
         }
+        anim.SetBool("Dash", false);
+        anim.SetBool("TouchWall", true);
         closeWall = true;
         rb.gravityScale = 0;
         rb.velocity = Vector3.zero;
@@ -94,6 +108,9 @@ public class Character : Unit {
     {
         if (closeWall && charging)
         {
+            anim.SetBool("Charging", false);
+            anim.SetTrigger("Jump");
+            anim.SetBool("TouchWall", false);
             power = (power >= minPow) ? power : minPow;
             closeWall = false;
             rb.velocity = new Vector3(7 * direction, power, 0);
@@ -111,11 +128,22 @@ public class Character : Unit {
     /// </summary>
     internal void EnemyJump()
     {
+        StartCoroutine(TempInvulnurable());
+        dashing = false;
+        anim.SetTrigger("Jump");
+        anim.SetBool("Dash", false);
         transform.localScale = new Vector3(direction, 1, 1);
         rb.velocity = new Vector3(7 * direction, minPow, 0);
         direction *= -1;
         power = 0;
         rb.gravityScale = 1.5f;
+    }
+
+    internal IEnumerator TempInvulnurable()
+    {
+        invulnerable = true;
+        yield return new WaitForSeconds(0.2f);
+        invulnerable = false;
     }
 
     private void Slide()
@@ -140,7 +168,6 @@ public class Character : Unit {
         
         if (hits.collider != null) 
         {
-            print(hits.collider.name);
             return (hits.collider.GetComponent<Tile>() == null);
         }
         return hitsDown.collider != null;
@@ -153,6 +180,7 @@ public class Character : Unit {
     {
         if (GetCloseWall())
         {
+            anim.SetBool("Charging", true);
             charging = true;
             power = (power >= maxPow) ? maxPow : power + chargeRate;
         } 
@@ -161,7 +189,6 @@ public class Character : Unit {
     public void Dash()
     {
         rb.velocity = new Vector3(20 * transform.localScale.x, 0, 0);
-        rb.gravityScale = 0.2f;
         dashing = true;
     }
 
@@ -174,19 +201,31 @@ public class Character : Unit {
     {
         if (!dead && !invulnerable)
         {
+            anim.SetTrigger("Die");
+            anim.speed = 0;
+            Invoke("HeroDie", 0.3f);
+            rb.gravityScale = 0;
+            rb.velocity = Vector3.zero;
             dead = true;
-            GetComponent<TrailRenderer>().enabled = false;
-            rb.freezeRotation = false;
-            rb.AddTorque(100);
-            rb.gravityScale = 2;
-            StartCoroutine(RestartGame());
         }
         
+    }
+
+    private void HeroDie()
+    {
+        anim.speed = 1;
+
+        GetComponent<TrailRenderer>().enabled = false;
+        rb.freezeRotation = false;
+        rb.AddTorque(10 * transform.localScale.x);
+        rb.velocity = new Vector3(transform.localScale.x * -3, 2, 0);
+        rb.gravityScale = 2;
+        StartCoroutine(RestartGame());
     }
 
     public IEnumerator RestartGame()
     {
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene(0);
+        MapManager.PlayerDie();
     }
 }

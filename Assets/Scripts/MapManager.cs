@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MapManager : MonoBehaviour {
     public static Character player;
@@ -28,27 +29,35 @@ public class MapManager : MonoBehaviour {
     // use to manipulate creating leftTile when CurveLeftIn
     private static bool leftDelay = false;
     private static bool rightDelay = false;
+    private static Vector3 playerStartPoint = new Vector3(-2.55f, 0, 0);
+    private static int playerStartScale = 1;
+    private static Vector2 savingGap = new Vector2(3, 3);
+    private static List<int> savedList;
 
-
+    public static int playerLives = 4;
 
     private void Awake()
     {
+        if (savedList == null)
+        {
+            savedList = new List<int>();
+        }
         player = FindObjectOfType<Character>();
         findMap = FindObjectOfType<MapManager>();
     }
 
     public static void ResetValue()
     {
+        PoolManager.ResetValue();
         obsLeft.Clear();
         obsRight.Clear();
         tileBook.Clear();
         tilePool.Clear();
         enemyBook.Clear();
         enemyPool.Clear();
-        startGap = 3;
-        endGap = 3;
         upperBoundary = 30;
         currentPoint = -10;
+        
 
     }
 
@@ -114,8 +123,24 @@ public class MapManager : MonoBehaviour {
                 enemyPool[enemy.name] = new Stack<Enemy>();
             }
         }
+        LoadPlayerSavePoint();
+        currentPoint = Mathf.FloorToInt(player.transform.position.y) - 10;
+        InitiateLevel();
+        
+	}
 
-
+    private void InitiateLevel()
+    {
+        startGap = savingGap.x;
+        endGap = savingGap.y;
+        Savepoint[] savepoints = FindObjectsOfType<Savepoint>();
+        for (int i = 0; i < savepoints.Length; i++)
+        {
+            if (savedList.Contains(savepoints[i].saveNum))
+            {
+                savepoints[i].saved = true;
+            }
+        }
         for (; currentPoint < upperBoundary; currentPoint++)
         {
             for (int j = -20; j <= 20; j++)
@@ -125,9 +150,12 @@ public class MapManager : MonoBehaviour {
                 if ((j < -startGap || j > endGap) && canSpawn)
                 {
                     tile = Spawn("BlockTile");
-                } else if (j == -startGap && canSpawn && !leftDelay) {
+                }
+                else if (j == -startGap && canSpawn && !leftDelay)
+                {
                     tile = Spawn("BlockLeft");
-                } else if (j == endGap && canSpawn)
+                }
+                else if (j == endGap && canSpawn)
                 {
                     if (rightDelay)
                     {
@@ -137,7 +165,7 @@ public class MapManager : MonoBehaviour {
                     {
                         tile = Spawn("BlockRight");
                     }
-                    
+
                 }
                 if (tile != null)
                 {
@@ -149,7 +177,7 @@ public class MapManager : MonoBehaviour {
             leftDelay = false;
             rightDelay = false;
         }
-	}
+    }
 
     private void Update()
     {
@@ -328,5 +356,65 @@ public class MapManager : MonoBehaviour {
             }
         }
         return canSpawn;
+    }
+
+    public static void PlayerDie()
+    {
+        playerLives--;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        ResetValue();
+    }
+
+    public static void SetPlayerSavePoint(Savepoint savepoint, float x, float y, string side)
+    {
+        playerStartPoint = new Vector3(x, y, 0);
+        if (side.Contains("left"))
+        {
+            playerStartPoint.x += 0.5f;
+            playerStartScale = 1;
+        }
+        else
+        {
+            playerStartPoint.x -= 0.5f;
+            playerStartScale = -1;
+        }
+        findMap.CheckGapAt(y - 9);
+        savedList.Add(savepoint.saveNum);
+    }
+
+    public static void LoadPlayerSavePoint()
+    {
+        player.direction = playerStartScale;
+        player.transform.localScale = new Vector3(playerStartScale, 1, 1);
+        player.transform.position = playerStartPoint;
+    }
+
+    private void CheckGapAt(float y)
+    {
+        bool hasTile = true;
+        for (int col = -20; col <= 20; col++)
+        {
+            Vector2 checkPos = new Vector2(col, y);
+            RaycastHit2D hitInfo = Physics2D.Raycast(checkPos, Vector2.zero);
+            print(checkPos);
+            if (hitInfo.collider != null)
+            {
+                print(hitInfo.collider.name);
+                if (hitInfo.collider.name.Contains("Right") && hasTile == false)
+                {
+                    savingGap.y = col;
+                   
+                }
+                else if (hitInfo.collider.name.Contains("Left") && hasTile == true)
+                {
+                    savingGap.x = -col;
+                    hasTile = false;
+                    
+                }
+            }
+            
+        }
+        print(savingGap);
+        
     }
 }

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4412637022676830}
   - component: {fileID: 198643022470000696}
   - component: {fileID: 199391083163601882}
+  - component: {fileID: 114464629730684624}
   m_Layer: 0
   m_Name: dustParticle
   m_TagString: Untagged
@@ -41,6 +42,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114464629730684624
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1920649756853414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4804a2bd571d3c24ab42981b2578ebb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198643022470000696
 ParticleSystem:
   m_ObjectHideFlags: 1

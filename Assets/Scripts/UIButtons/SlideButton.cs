@@ -21,7 +21,10 @@ public class SlideButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         if (player.rb.gravityScale != 0 && !player.dead)
         {
-            player.Dash();
+            player.rb.gravityScale = 0;
+            player.rb.velocity = Vector3.zero;
+            player.anim.SetBool("Dash", true);
+            player.Invoke("Dash", 0.2f);
         }
         else if (player.charging && !player.dead)
         {

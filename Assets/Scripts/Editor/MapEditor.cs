@@ -8,13 +8,11 @@ public class MapEditor : Editor {
     GameObject[] prefabs;
     GameObject selectedPrefab;
     List<GameObject> spawnedGo = new List<GameObject>();
-    static bool enable = false;
     bool drawing = false;
 
     [MenuItem("Window/Map Editor/Enable %E")]
     private static void OpenMapEditor()
     {
-        enable = true;
         Selection.activeGameObject = FindObjectOfType<Map>().gameObject;
         ActiveEditorTracker.sharedTracker.isLocked = true;
     }
@@ -23,15 +21,17 @@ public class MapEditor : Editor {
     private static void DisableMapEditor()
     {
         ActiveEditorTracker.sharedTracker.isLocked = false;
-        enable = false;
         Selection.activeGameObject = null;
     }
 
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
-        Object[] obj = Resources.LoadAll("Map");
-        prefabs = new GameObject[obj.Length];
+        List<Object> obj = new List<Object>();
+        obj.AddRange(Resources.LoadAll("Tiles1"));
+        obj.AddRange(Resources.LoadAll("Obstacle1"));
+        obj.AddRange(Resources.LoadAll("Items"));
+        prefabs = new GameObject[obj.Count];
         for (int i = 0; i < prefabs.Length; i++)
         {
             prefabs[i] = (GameObject)obj[i];
@@ -44,6 +44,14 @@ public class MapEditor : Editor {
             {
                 elementInThisRows++;
                 Texture prefabTexture = AssetPreview.GetAssetPreview(prefabs[i]);
+                if (prefabs[i] == selectedPrefab)
+                {
+                    GUI.backgroundColor = Color.green;
+                } else
+                {
+                    GUI.backgroundColor = Color.grey;
+                }
+                
                 if (GUILayout.Button(prefabTexture, GUILayout.MaxWidth(70), GUILayout.MaxHeight(70)))
                 {
                     selectedPrefab = prefabs[i];
@@ -80,7 +88,6 @@ public class MapEditor : Editor {
             }
         }
 
-
         if (drawing)
         {
             spawnPosition = new Vector3(Mathf.RoundToInt(spawnPosition.x), Mathf.RoundToInt(spawnPosition.y), 0);
@@ -111,23 +118,6 @@ public class MapEditor : Editor {
                 DestroyImmediate(hitInfo.collider.gameObject);
             }
         }
-        if (selectedPrefab != null)
-        {
-            if (selectedGameObject != null)
-            {
-                float selectedGameObjectWidth = selectedGameObject.GetComponent<Collider2D>().bounds.size.x;
-                float selectedGameObjectHeight = selectedGameObject.GetComponent<Collider2D>().bounds.size.z;
-                float selectedPrefabWidth = selectedPrefab.GetComponent<Collider2D>().bounds.size.x;
-                float selectedPrefabHeight = selectedPrefab.GetComponent<Collider2D>().bounds.size.y;
-                if (Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.W)
-                {
-                    spawnPosition = new Vector3(selectedGameObject.transform.position.x,
-                        selectedGameObject.transform.position.y + selectedGameObjectHeight / 2 + selectedPrefabHeight / 2, 0);
-                    Spawn(spawnPosition);
-                }
-
-            }
-        }
 
         Handles.BeginGUI();
         GUILayout.Box("Map Edit Mode");
@@ -138,35 +128,44 @@ public class MapEditor : Editor {
         {
             GUI.backgroundColor = Color.cyan;
             GUILayout.Box("SelectedPrefab: " + selectedPrefab.name);
-            Map map = (Map)target;
             GUI.backgroundColor = Color.green;
-            Tile[] tile = map.GetComponentsInChildren<Tile>();
-            int count = 0;
-            foreach (Tile t in tile)
-            {
-                if (t.name == selectedPrefab.name)
-                {
-                    count++;
-                }
-            }
+            int count = CheckTileNumber(selectedPrefab.name);
             GUILayout.Box(selectedPrefab.name + ": " + count);
         }
 
-        Handles.EndGUI();
-            
+        Handles.EndGUI();      
     }
+
+    private int CheckTileNumber(string chkName)
+    {
+        Map map = (Map)target;
+        Tile[] tile = map.GetComponentsInChildren<Tile>();
+        int count = 0;
+        foreach (Tile t in tile)
+        {
+            if (t.name == selectedPrefab.name)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+        
  
-    GameObject selectedGameObject;
     void Spawn(Vector2 _spawnPosition)
     {
         GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(selectedPrefab);
         go.transform.position = new Vector3(_spawnPosition.x, _spawnPosition.y, 0);
 
-        selectedGameObject = go;
         go.name = selectedPrefab.name;
         Map map = (Map)target;
         go.transform.parent = map.transform;
         spawnedGo.Add(go);
+        if (go.GetComponentInChildren<Savepoint>() != null)
+        {
+            int count = CheckTileNumber(go.name);
+            go.GetComponentInChildren<Savepoint>().saveNum = count;
+        }
     }
 
     private bool HasObject(Vector3 spawnPosition)

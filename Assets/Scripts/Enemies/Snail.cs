@@ -62,7 +62,6 @@ public class Snail : Enemy {
         }
         if (hitsDown.collider == null)
         {
-            print(facingDirection);
             TurnBack();
         }
 
