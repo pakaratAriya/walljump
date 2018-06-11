@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114331864998294052}
   - component: {fileID: 61859255713200352}
   m_Layer: 0
-  m_Name: CurveBackRI
+  m_Name: CurveBackRightI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

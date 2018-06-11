@@ -338,7 +338,8 @@ public class MapManager : MonoBehaviour {
             /// check if the object is a turning point or not
             /// if it is, change the start point
             /// 
-            string detectedObj = Physics2D.OverlapPoint(pos).name;
+            Collider2D col = Physics2D.OverlapPoint(pos);
+            string detectedObj = col.name;/*
             if (detectedObj.Contains("LeftIn"))
             {
                 startGap--;
@@ -354,6 +355,16 @@ public class MapManager : MonoBehaviour {
                 endGap++;
                 rightDelay = true;
             }
+            */
+            if (detectedObj.Contains("Left"))
+            {
+                print(startGap);
+                startGap = -col.transform.position.x;
+            }else if (detectedObj.Contains("Right"))
+            {
+                endGap = col.transform.position.x;
+            }
+
         }
         return canSpawn;
     }
