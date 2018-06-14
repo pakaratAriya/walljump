@@ -25,9 +25,9 @@ public class DeathZone : MonoBehaviour {
                 }
             } else
             {
-                if (col.GetComponent<Unit>() != this.GetComponent<Unit>())
+                if (col.GetComponent<Character>())
                 {
-                    col.GetComponent<Unit>().Die();
+                    col.GetComponent<Character>().Die();
                 }
                 
             }

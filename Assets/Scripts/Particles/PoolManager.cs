@@ -48,7 +48,9 @@ public class PoolManager : MonoBehaviour {
 
     public static void Despawn(ParticleSystem par)
     {
+        par.transform.parent = poolManager.transform;
         particlePool[par.name].Push(par);
+        par.transform.localScale = Vector3.one;
         par.gameObject.SetActive(false);
     }
 }

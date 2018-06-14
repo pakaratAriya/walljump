@@ -14,7 +14,7 @@ public class JumpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler 
         player = FindObjectOfType<Character>();
         btn = GetComponent<Button>();
         btn.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width * 0.3f, Screen.width * 0.3f);
-        btn.GetComponent<RectTransform>().anchoredPosition = new Vector3(Screen.width * 0.3f / 2, Screen.width * 0.3f / 2);
+        btn.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0);
 
     }
 
@@ -36,12 +36,18 @@ public class JumpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler 
 
     private void Update()
     {
-        if (player.rb.gravityScale != 0)
+        if (!player.charging)
         {
             btn.GetComponent<Image>().sprite = jumpSpt;
+            
         } else
         {
             btn.GetComponent<Image>().sprite = chargeSpt;
+            ParticleSystem par = PoolManager.Spawn("Charge2Particle");
+            par.transform.position = transform.position;
+            par.transform.parent = transform;
+            par.transform.localScale = Vector3.one *3;
+            
         }
     }
 

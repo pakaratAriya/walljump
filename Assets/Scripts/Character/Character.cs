@@ -18,6 +18,7 @@ public class Character : Unit {
     public bool dead = false;
     public bool invulnerable = false;
     internal Animator anim;
+    public bool onStand = false;
 
 	// Use this for initialization
 	void Start () {
@@ -37,6 +38,11 @@ public class Character : Unit {
             if (closeWall)
             {
                 charging = true;
+                if (onStand)
+                {
+                    direction = 1;
+                    transform.localScale = new Vector3(direction, 1, 1);
+                }
             }
         }
         if (charging)
@@ -45,8 +51,12 @@ public class Character : Unit {
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            
             Jump();
+            
         }
+
+
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             if (rb.gravityScale != 0)
@@ -54,15 +64,27 @@ public class Character : Unit {
                 rb.gravityScale = 0;
                 rb.velocity = Vector3.zero;
                 anim.SetBool("Dash", true);
+                for(int i = 0; i < 10; i++)
+                {
+                    ParticleSystem par = PoolManager.Spawn("ChargeParticle");
+                    par.transform.position = transform.position;
+                }
+                
                 Invoke("Dash", 0.2f);
 
             }
-            else if (charging)
+            else if (charging && !onStand)
             {
                 charging = false;
                 power = 0;
                 anim.SetBool("Charging", false);
-            } else
+            } else if (onStand)
+            {
+                direction = -1;
+                transform.localScale = new Vector3(direction, 1, 1);
+                charging = true;
+            }
+            else
             {
                 sliding = true;
             }
@@ -71,6 +93,12 @@ public class Character : Unit {
         if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             sliding = false;
+            if (onStand)
+            {
+                
+                Jump();
+                
+            }
         }
             if (sliding)
         {
@@ -84,14 +112,29 @@ public class Character : Unit {
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if(dead)
+        if (dead)
         {
             return;
         }
-        if (Mathf.Abs(col.transform.position.x) - Mathf.Abs(transform.position.x) <= 0.3f)
+
+        if (col.collider.GetComponent<UngrabablePath>() != null)
         {
             return;
         }
+
+        if(rb.velocity.y > 12)
+        {
+            return;
+        }
+
+        if (col.collider.GetComponent<StandablePath>() != null)
+        {
+            onStand = true;
+        }
+
+
+
+        
         anim.SetBool("Dash", false);
         anim.SetBool("TouchWall", true);
         closeWall = true;
@@ -108,11 +151,14 @@ public class Character : Unit {
     {
         if (closeWall && charging)
         {
+            onStand = false;
+            GetComponent<TrailRenderer>().enabled = false;
             anim.SetBool("Charging", false);
             anim.SetTrigger("Jump");
             anim.SetBool("TouchWall", false);
             power = (power >= minPow) ? power : minPow;
             closeWall = false;
+
             rb.velocity = new Vector3(7 * direction, power, 0);
             direction *= -1;
             power = 0;
@@ -128,6 +174,7 @@ public class Character : Unit {
     /// </summary>
     internal void EnemyJump()
     {
+        GetComponent<TrailRenderer>().enabled = false;
         StartCoroutine(TempInvulnurable());
         dashing = false;
         anim.SetTrigger("Jump");
@@ -183,17 +230,23 @@ public class Character : Unit {
             anim.SetBool("Charging", true);
             charging = true;
             power = (power >= maxPow) ? maxPow : power + chargeRate;
+            ParticleSystem par = PoolManager.Spawn("ChargeParticle");
+            par.transform.position = transform.position - Vector3.up * 0.2f;
+            par.transform.parent = transform;
         } 
     }
 
     public void Dash()
     {
+        
         rb.velocity = new Vector3(20 * transform.localScale.x, 0, 0);
         dashing = true;
+        GetComponent<TrailRenderer>().enabled = true;
     }
 
     public bool GetCloseWall()
     {
+        GetComponent<TrailRenderer>().enabled = false;
         return closeWall;
     }
 

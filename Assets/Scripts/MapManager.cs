@@ -358,11 +358,14 @@ public class MapManager : MonoBehaviour {
             */
             if (detectedObj.Contains("Left"))
             {
-                print(startGap);
                 startGap = -col.transform.position.x;
             }else if (detectedObj.Contains("Right"))
             {
                 endGap = col.transform.position.x;
+                if (detectedObj.Contains("Out"))
+                {
+                    endGap = 10;
+                }
             }
 
         }
@@ -400,6 +403,39 @@ public class MapManager : MonoBehaviour {
         player.transform.position = playerStartPoint;
     }
 
+    public static int CheckCamPos(float y)
+    {
+        float checkY = player.transform.position.y + y;
+        int sGap = 0;
+        int eGap = 0;
+        bool hasTile = true;
+        int returnGap = 0;
+        for (int col = -20; col <= 20; col++)
+        {
+            Vector2 checkPos = new Vector2(col, checkY);
+            RaycastHit2D hitInfo = Physics2D.Raycast(checkPos, Vector2.zero);
+            if (hitInfo.collider != null)
+            {
+                if (hitInfo.collider.name.Contains("Right") && hasTile == false)
+                {
+                    hasTile = true;
+                    eGap = Mathf.Abs(col);
+                }
+                else if (hitInfo.collider.name.Contains("Left") && hasTile == true)
+                {
+                    
+                    hasTile = false;
+                    sGap = Mathf.Abs(col);
+                }
+            }
+
+            returnGap = (sGap > eGap) ? sGap : eGap;
+
+        }
+        returnGap = (returnGap > 4) ? returnGap - 4 : 0;
+        return returnGap;
+    } 
+
     private void CheckGapAt(float y)
     {
         bool hasTile = true;
@@ -407,10 +443,8 @@ public class MapManager : MonoBehaviour {
         {
             Vector2 checkPos = new Vector2(col, y);
             RaycastHit2D hitInfo = Physics2D.Raycast(checkPos, Vector2.zero);
-            print(checkPos);
             if (hitInfo.collider != null)
             {
-                print(hitInfo.collider.name);
                 if (hitInfo.collider.name.Contains("Right") && hasTile == false)
                 {
                     savingGap.y = col;
@@ -425,7 +459,6 @@ public class MapManager : MonoBehaviour {
             }
             
         }
-        print(savingGap);
         
     }
 }
