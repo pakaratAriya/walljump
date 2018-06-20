@@ -129,10 +129,14 @@ public class Character : Unit {
 
         if (col.collider.GetComponent<StandablePath>() != null)
         {
+            direction *= -1;
             onStand = true;
         }
-
-
+        
+        if (col.collider.GetComponent<ClimbableArea>() != null)
+        {
+            StartCoroutine(ClimbUp(col.collider.transform.position + Vector3.up));
+        }
 
         
         anim.SetBool("Dash", false);
@@ -142,6 +146,25 @@ public class Character : Unit {
         rb.velocity = Vector3.zero;
         transform.localScale = new Vector3(direction, 1, 1);
         dashing = false;
+    }
+
+    IEnumerator ClimbUp(Vector3 des)
+    {
+        
+        float movingSpeed = 0.05f;
+        bool isLeft = des.x < transform.position.x;
+        float shiftDis = isLeft ? -movingSpeed : movingSpeed;
+        while(transform.position.y < des.y)
+        {
+            transform.position += Vector3.up * movingSpeed;
+            yield return new WaitForEndOfFrame();
+        }
+        while((isLeft && transform.position.x > des.x) || (!isLeft && transform.position.x < des.x))
+        {
+            transform.position += Vector3.right * shiftDis;
+            yield return new WaitForEndOfFrame();
+        }
+        
     }
 
     /// <summary>

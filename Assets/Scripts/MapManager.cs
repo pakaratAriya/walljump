@@ -359,13 +359,18 @@ public class MapManager : MonoBehaviour {
             if (detectedObj.Contains("Left"))
             {
                 startGap = -col.transform.position.x;
+                if (detectedObj.Contains("In")) {
+                    startGap--;
+                        leftDelay = true;
+                    } 
             }else if (detectedObj.Contains("Right"))
             {
                 endGap = col.transform.position.x;
-                if (detectedObj.Contains("Out"))
-                {
-                    endGap = 10;
-                }
+            }
+            if ((detectedObj.Contains("Floor")||detectedObj.Contains("Ceiling")) && (pos.x >= endGap))
+            {
+                endGap = pos.x + 1;
+                rightDelay = true;
             }
 
         }
