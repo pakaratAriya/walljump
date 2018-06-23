@@ -80,7 +80,15 @@ public class MapEditor : Editor {
         {
             spawnPosition = new Vector3(Mathf.RoundToInt(spawnPosition.x), Mathf.RoundToInt(spawnPosition.y), 0);
             if (!HasObject(spawnPosition))
-            Spawn(spawnPosition);
+            {
+                //Spawn(spawnPosition);
+
+            }else
+            {
+                SpawnDependentTile(spawnPosition);
+               
+            }
+            SpawnDependentTile(spawnPosition);
         }
         if (Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.R)
         {
@@ -123,7 +131,7 @@ public class MapEditor : Editor {
                 {
                     spawnedGo.Remove(hitInfo.collider.gameObject);
                     DestroyImmediate(hitInfo.collider.gameObject);
-                    Map map = (Map)target;
+                    map = (Map)target;
                 }
                 
             }
@@ -144,6 +152,45 @@ public class MapEditor : Editor {
         }
 
         Handles.EndGUI();      
+    }
+
+    private void SpawnDependentTile(Vector2 pos)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+        if (hit.collider != null)
+        {
+            if (hit.collider.GetComponent<IndependentBlock>() != null)
+            {
+                return;
+            }
+        }
+        string myTile = "independentTiles/" + map.AssessTile(pos);
+        IndependentBlock myObj = Resources.Load<IndependentBlock>(myTile);
+        IndependentBlock myGo = (IndependentBlock)PrefabUtility.InstantiatePrefab(myObj);
+        myGo.transform.position = new Vector3(pos.x, pos.y, 0);
+        for (int i = (int)pos.x - 1; i <= (int)pos.x + 1; i++)
+        {
+            for (int j = (int)pos.y - 1; j <= (int)pos.y + 1; j++)
+            {
+                if(i != pos.x || j != pos.y)
+                {
+                    RaycastHit2D hitInfo = Physics2D.Raycast(new Vector2(i, j), Vector2.zero);
+                    if (hitInfo.collider != null)
+                    {
+                        if (hitInfo.collider.GetComponent<IndependentBlock>() != null)
+                        {
+                            DestroyImmediate(hitInfo.collider.gameObject);
+                            string newTile = "independentTiles/" + map.AssessTile(new Vector2(i, j));
+                            Debug.Log(newTile);
+                            IndependentBlock newObj = Resources.Load<IndependentBlock>(newTile);
+                            IndependentBlock newGo = (IndependentBlock)PrefabUtility.InstantiatePrefab(newObj);
+                            newGo.transform.position = new Vector3(i, j, 0);
+                        }
+                    }
+                }           
+            }
+        }
+
     }
 
     private void DrawItems()
