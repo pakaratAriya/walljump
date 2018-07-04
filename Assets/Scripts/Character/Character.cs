@@ -17,6 +17,7 @@ public class Character : Unit {
     public bool dashing = false;
     public bool dead = false;
     public bool invulnerable = false;
+    bool climbing = false;
     internal Animator anim;
     public bool onStand = false;
 
@@ -35,7 +36,7 @@ public class Character : Unit {
         }
 		if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (closeWall)
+            if (closeWall && !climbing)
             {
                 charging = true;
                 if (onStand)
@@ -119,6 +120,18 @@ public class Character : Unit {
 
         if (col.collider.GetComponent<UngrabablePath>() != null)
         {
+            if (dashing)
+            {
+                print(col.collider.transform.position.y - transform.position.y);
+                if(col.collider.transform.position.y - transform.position.y <= 0.8f)
+                {
+                    anim.SetBool("Dash", false);
+                    
+                    rb.gravityScale = 1.5f;
+                    rb.velocity = Vector3.zero;
+                    dashing = false;
+                }
+            }
             return;
         }
 
@@ -150,7 +163,7 @@ public class Character : Unit {
 
     IEnumerator ClimbUp(Vector3 des)
     {
-        
+        climbing = true;
         float movingSpeed = 0.05f;
         bool isLeft = des.x < transform.position.x;
         float shiftDis = isLeft ? -movingSpeed : movingSpeed;
@@ -164,7 +177,8 @@ public class Character : Unit {
             transform.position += Vector3.right * shiftDis;
             yield return new WaitForEndOfFrame();
         }
-        
+        climbing = false;
+
     }
 
     /// <summary>
@@ -172,7 +186,7 @@ public class Character : Unit {
     /// </summary>
     public void Jump()
     {
-        if (closeWall && charging)
+        if (closeWall && charging && !climbing)
         {
             onStand = false;
             GetComponent<TrailRenderer>().enabled = false;
@@ -248,7 +262,7 @@ public class Character : Unit {
     /// </summary>
     public void StartCharging()
     {
-        if (GetCloseWall())
+        if (GetCloseWall() && !climbing)
         {
             anim.SetBool("Charging", true);
             charging = true;

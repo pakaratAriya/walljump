@@ -141,42 +141,46 @@ public class MapManager : MonoBehaviour {
                 savepoints[i].saved = true;
             }
         }
-        for (; currentPoint < upperBoundary; currentPoint++)
+        if (autoGenerate)
         {
-            for (int j = -20; j <= 20; j++)
+            for (; currentPoint < upperBoundary; currentPoint++)
             {
-                bool canSpawn = CanSpawn(new Vector2(j, currentPoint));
-                Tile tile = null;
-                if ((j < -startGap || j > endGap) && canSpawn)
+                for (int j = -20; j <= 20; j++)
                 {
-                    tile = Spawn("BlockTile");
-                }
-                else if (j == -startGap && canSpawn && !leftDelay)
-                {
-                    tile = Spawn("BlockLeft");
-                }
-                else if (j == endGap && canSpawn)
-                {
-                    if (rightDelay)
+                    bool canSpawn = CanSpawn(new Vector2(j, currentPoint));
+                    Tile tile = null;
+                    if ((j < -startGap || j > endGap) && canSpawn)
                     {
                         tile = Spawn("BlockTile");
                     }
-                    else
+                    else if (j == -startGap && canSpawn && !leftDelay)
                     {
-                        tile = Spawn("BlockRight");
+                        tile = Spawn("BlockLeft");
+                    }
+                    else if (j == endGap && canSpawn)
+                    {
+                        if (rightDelay)
+                        {
+                            tile = Spawn("BlockTile");
+                        }
+                        else
+                        {
+                            tile = Spawn("BlockRight");
+                        }
+
+                    }
+                    if (tile != null)
+                    {
+                        tile.transform.position = new Vector3(j, currentPoint, 0);
+                        tile.transform.SetParent(transform);
                     }
 
                 }
-                if (tile != null)
-                {
-                    tile.transform.position = new Vector3(j, currentPoint, 0);
-                    tile.transform.SetParent(transform);
-                }
-
+                leftDelay = false;
+                rightDelay = false;
             }
-            leftDelay = false;
-            rightDelay = false;
         }
+       
     }
 
     private void Update()
@@ -188,7 +192,8 @@ public class MapManager : MonoBehaviour {
                 ChangePosition();
             } else
             {
-                SetPosition();
+                if(autoGenerate)
+                    SetPosition();
             }
             
         }
@@ -239,38 +244,43 @@ public class MapManager : MonoBehaviour {
     {
         while (currentPoint <= player.transform.position.y + upperBoundary)
         {
-            
-            for (int j = -20; j <= 20; j++)
+            if (findMap.autoGenerate)
             {
-                bool canSpawn = CanSpawn(new Vector2(j, currentPoint));
-                string whatToSpawn = "";
-                Tile tile = null;
-                if ((j < -startGap || j > endGap) && canSpawn)
+                for (int j = -20; j <= 20; j++)
                 {
-                    whatToSpawn = "BlockTile";
-                }
-                else if (j == -startGap && !leftDelay && canSpawn)
-                {
-                    whatToSpawn = "BlockLeft";
-                    
-                }
-                else if (j == endGap && canSpawn)
-                {
-                    if (rightDelay)
+                    bool canSpawn = CanSpawn(new Vector2(j, currentPoint));
+                    string whatToSpawn = "";
+                    Tile tile = null;
+                    if ((j < -startGap || j > endGap) && canSpawn)
                     {
                         whatToSpawn = "BlockTile";
-                    } else
+                    }
+                    else if (j == -startGap && !leftDelay && canSpawn)
                     {
-                        whatToSpawn = "BlockRight";
+                        whatToSpawn = "BlockLeft";
+
+                    }
+                    else if (j == endGap && canSpawn)
+                    {
+                        if (rightDelay)
+                        {
+                            whatToSpawn = "BlockTile";
+                        }
+                        else
+                        {
+                            whatToSpawn = "BlockRight";
+                        }
+                    }
+                    if (whatToSpawn != "")
+                    {
+                        tile = Spawn(whatToSpawn);
+                        tile.transform.position = new Vector3(j, currentPoint, 0);
+                        tile.transform.SetParent(findMap.transform);
                     }
                 }
-                if (whatToSpawn != "")
-                {
-                    tile = Spawn(whatToSpawn);
-                    tile.transform.position = new Vector3(j, currentPoint, 0);
-                    tile.transform.SetParent(findMap.transform);
-                }
+
             }
+
             if (currentPoint % 10 == 0)
             {
                 Tile bg = Spawn("background");
