@@ -80,7 +80,7 @@ public class MapEditor : Editor {
     private void OnSceneGUI()
     {
         Vector3 spawnPosition = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin;
-        if (Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.E)
+        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.E)
         {
             spawnPosition = new Vector3(Mathf.RoundToInt(spawnPosition.x), Mathf.RoundToInt(spawnPosition.y), 0);
             if (!HasObject(spawnPosition))
@@ -95,7 +95,7 @@ public class MapEditor : Editor {
                 }
             }
         }
-        if (Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.R)
+        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.R)
         {
             if (drawing)
             {
