@@ -35,7 +35,7 @@ public class Character : Unit {
         {
             return;
         }
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             if (closeWall && !climbing)
             {
@@ -51,7 +51,7 @@ public class Character : Unit {
         {
             StartCharging();
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0))
         {
             
             Jump();
@@ -59,7 +59,7 @@ public class Character : Unit {
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             if (rb.gravityScale != 0)
             {
