@@ -11,7 +11,7 @@ public class Character : Unit {
     public float minPow = 8;
     public float maxPow = 15;
     public float power = 0;
-    public float chargeRate = 0.3f;
+    public float chargeRate = 0.6f;
     public bool charging = false;
     public bool sliding = false;
     public bool dashing = false;
@@ -20,6 +20,7 @@ public class Character : Unit {
     bool climbing = false;
     internal Animator anim;
     public bool onStand = false;
+    public bool chargeUp = true;
 
 	// Use this for initialization
 	void Start () {
@@ -54,11 +55,11 @@ public class Character : Unit {
         {
             
             Jump();
-            
+            chargeUp = true;
         }
 
 
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (rb.gravityScale != 0)
             {
@@ -67,28 +68,29 @@ public class Character : Unit {
                 anim.SetBool("Dash", true);
                 for(int i = 0; i < 10; i++)
                 {
-                    ParticleSystem par = PoolManager.Spawn("ChargeParticle");
-                    par.transform.position = transform.position;
+                    //ParticleSystem par = PoolManager.Spawn("ChargeParticle");
+                    //par.transform.position = transform.position;
                 }
                 
                 Invoke("Dash", 0.2f);
 
             }
-            else if (charging && !onStand)
-            {
-                charging = false;
-                power = 0;
-                anim.SetBool("Charging", false);
-            } else if (onStand)
-            {
-                direction = -1;
-                transform.localScale = new Vector3(direction, 1, 1);
-                charging = true;
-            }
-            else
-            {
-                sliding = true;
-            }
+            //else if (charging && !onStand)
+            //{
+            //    charging = false;
+            //    power = 0;
+            //    anim.SetBool("Charging", false);
+            //}
+            //else if (onStand)
+            //{
+            //    direction = -1;
+            //    transform.localScale = new Vector3(direction, 1, 1);
+            //    charging = true;
+            //}
+            //else
+            //{
+            //    sliding = true;
+            //}
         }
 
         if (Input.GetKeyUp(KeyCode.LeftControl))
@@ -264,12 +266,37 @@ public class Character : Unit {
     {
         if (GetCloseWall() && !climbing)
         {
-            anim.SetBool("Charging", true);
+            //anim.SetBool("Charging", true);
             charging = true;
-            power = (power >= maxPow) ? maxPow : power + chargeRate;
-            ParticleSystem par = PoolManager.Spawn("ChargeParticle");
-            par.transform.position = transform.position - Vector3.up * 0.2f;
-            par.transform.parent = transform;
+            if (chargeUp == true)
+            {
+                if(power< maxPow)
+                {
+                    power += chargeRate;
+                }
+                else
+                {
+                    power = maxPow;
+                    chargeUp = false;
+                }
+            }
+            else
+            {
+                print("charge down");
+                if (power > 0)
+                {
+                    power -= chargeRate;
+                }
+                else
+                {
+                    power = 0;
+                    chargeUp = true;
+                }
+            }
+            //power = (power >= maxPow) ? maxPow : power + chargeRate;
+            //ParticleSystem par = PoolManager.Spawn("ChargeParticle");
+            //par.transform.position = transform.position - Vector3.up * 0.2f;
+            //par.transform.parent = transform;
         } 
     }
 
