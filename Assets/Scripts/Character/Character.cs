@@ -21,11 +21,15 @@ public class Character : Unit {
     internal Animator anim;
     public bool onStand = false;
     public bool chargeUp = true;
+    public bool debugLineSize = false;
+    public CharacterHelper ch;
 
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        if (ch)
+            ch.line.enabled = false;
         
 	}
 	
@@ -49,13 +53,16 @@ public class Character : Unit {
         }
         if (charging)
         {
+            DebugLineSize();
             StartCharging();
         }
+        
         if (Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0))
         {
             
             Jump();
             chargeUp = true;
+            DisableLineSize();
         }
 
 
@@ -112,6 +119,24 @@ public class Character : Unit {
             anim.SetBool("Slide", false);
         }
 	}
+
+    private void DebugLineSize()
+    {
+        if (ch)
+        {
+            ch.line.enabled = true;
+            float sendingPow;
+            sendingPow = (power >= minPow) ? power : minPow;
+            ch.DrawTraject(transform.position, new Vector2(7 * direction, sendingPow));
+
+        }
+    }
+
+    private void DisableLineSize()
+    {
+        if(ch)
+            ch.line.enabled = false;
+    }
 
     private void OnCollisionEnter2D(Collision2D col)
     {
