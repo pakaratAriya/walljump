@@ -6,7 +6,7 @@ public class CharacterHelper : MonoBehaviour {
 
     public Character player;
     internal LineRenderer line;
-    private void Start()
+    private void Awake()
     {
         line = GetComponent<LineRenderer>();
     }
