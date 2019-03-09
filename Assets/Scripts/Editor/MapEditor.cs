@@ -1,4 +1,4 @@
-﻿ using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -68,6 +68,7 @@ public class MapEditor : Editor {
             DrawTileEditor();
         }
 
+
         
         
         GUILayout.Label("E - Place an object at the mouse cursor");
@@ -77,7 +78,12 @@ public class MapEditor : Editor {
         GUILayout.Label("Ctrl + Q - Quit the tool");
     }
 
-    private void OnSceneGUI()
+  private void Awake()
+  {
+        sceneCam = GameObject.Find("SceneCamera");
+  }
+
+  private void OnSceneGUI()
     {
         Vector3 spawnPosition = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin;
         if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.E)
