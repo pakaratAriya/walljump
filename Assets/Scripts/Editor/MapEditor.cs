@@ -25,7 +25,7 @@ public class MapEditor : Editor {
     bool drawing = false;
 
     static GameObject sceneCam;
-
+    Camera myCam;
     [MenuItem("Window/Map Editor/Enable %e")]
     private static void OpenMapEditor()
     {
@@ -78,11 +78,57 @@ public class MapEditor : Editor {
   private void Awake()
   {
         sceneCam = GameObject.Find("SceneCamera");
-  }
+        myCam = sceneCam.GetComponent<Camera>();
+    }
 
   private void OnSceneGUI()
     {
         Vector3 spawnPosition = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin;
+
+        Handles.BeginGUI();
+        Vector3 onSceneCursor = new Vector3(Mathf.RoundToInt(spawnPosition.x) - 0.5f, Mathf.RoundToInt(spawnPosition.y) + 0.5f, 0);
+        if (selectedPrefab || !editMode)
+        {
+            GUI.backgroundColor = new Color(0, 1, 0, 0.3f);
+        }
+        else
+        {
+            GUI.backgroundColor = new Color(1, 0, 0, 0.3f);
+        }
+
+
+        Vector3 camInUnit = myCam.ViewportToWorldPoint(new Vector3(0, 0, 0)) - myCam.ViewportToWorldPoint(new Vector3(1, 1, 0));
+        camInUnit.x = myCam.ViewportToWorldPoint(Vector3.one).x - myCam.ViewportToWorldPoint(Vector3.zero).x;
+        camInUnit.y = myCam.ViewportToWorldPoint(Vector3.one).y - myCam.ViewportToWorldPoint(Vector3.zero).y;
+        camInUnit.x = Mathf.Abs(camInUnit.x);
+        camInUnit.y = Mathf.Abs(camInUnit.y);
+        Vector2 screenSize;
+        screenSize.x = myCam.ViewportToScreenPoint(Vector3.one).x - myCam.ViewportToScreenPoint(Vector3.zero).x;
+        screenSize.y = myCam.ViewportToScreenPoint(Vector3.one).y - myCam.ViewportToScreenPoint(Vector3.zero).y;
+        const float screenFactor = 0.8f;
+
+
+        Vector2 oneUnit;
+        oneUnit.x = (screenSize.x) / camInUnit.x;
+        oneUnit.y = (screenSize.y) / camInUnit.y;
+
+        GUI.Box(new Rect(HandleUtility.WorldToGUIPoint(onSceneCursor), oneUnit * screenFactor), "");
+        GUILayout.Box("Map Edit Mode");
+        if (selectedPrefab == null)
+        {
+            GUILayout.Box("No prefab selected!");
+        }
+        else
+        {
+            GUI.backgroundColor = Color.cyan;
+            GUILayout.Box("SelectedPrefab: " + selectedPrefab.name);
+            GUI.backgroundColor = Color.green;
+            int count = CheckTileNumber(selectedPrefab.name);
+            GUILayout.Box(selectedPrefab.name + ": " + count);
+        }
+
+        Handles.EndGUI();
+
         if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.B)
         {
             spawnPosition = new Vector3(Mathf.RoundToInt(spawnPosition.x), Mathf.RoundToInt(spawnPosition.y), 0);
@@ -180,37 +226,7 @@ public class MapEditor : Editor {
             }
         }
 
-        Handles.BeginGUI();
-        GUILayout.Box("Map Edit Mode");
-        if (selectedPrefab == null)
-        {
-            GUILayout.Box("No prefab selected!");
-        } else
-        {
-            GUI.backgroundColor = Color.cyan;
-            GUILayout.Box("SelectedPrefab: " + selectedPrefab.name);
-            GUI.backgroundColor = Color.green;
-            int count = CheckTileNumber(selectedPrefab.name);
-            GUILayout.Box(selectedPrefab.name + ": " + count);
-        }
-        Vector3 onSceneCursor = new Vector3(Mathf.RoundToInt(spawnPosition.x) - 0.5f, Mathf.RoundToInt(spawnPosition.y) + 0.5f,0);
-        if (selectedPrefab || !editMode)
-        {
-            GUI.backgroundColor = new Color(0, 1, 0, 0.3f);
-        } else
-        {
-            GUI.backgroundColor = new Color(1, 0, 0, 0.3f);
-        }
-        
-        Camera myCam = sceneCam.GetComponent<Camera>();
-        Vector3 camInUnit = myCam.ViewportToWorldPoint(new Vector3(0, 1, 0)) - myCam.ViewportToWorldPoint(new Vector3(1,0,0));
-        camInUnit.x = Mathf.Abs(camInUnit.x);
-        camInUnit.y = Mathf.Abs(camInUnit.y);
-        Vector2 oneUnit;
-        oneUnit.x = Screen.width / camInUnit.x;
-        oneUnit.y = (Screen.height - 50) / camInUnit.y;
-        GUI.Box(new Rect(HandleUtility.WorldToGUIPoint(onSceneCursor), oneUnit), "");
-        Handles.EndGUI();      
+           
     }
 
     private void SpawnDependentTile(Vector2 pos)
