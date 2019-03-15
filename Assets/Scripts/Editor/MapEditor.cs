@@ -26,7 +26,7 @@ public class MapEditor : Editor {
 
     static GameObject sceneCam;
 
-    [MenuItem("Window/Map Editor/Enable %E")]
+    [MenuItem("Window/Map Editor/Enable %e")]
     private static void OpenMapEditor()
     {
         Selection.activeGameObject = FindObjectOfType<Map>().gameObject;
@@ -35,7 +35,7 @@ public class MapEditor : Editor {
         Debug.Log(sceneCam.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0,1,0)));
     }
 
-    [MenuItem("Window/Map Editor/Disable %Q")]
+  [MenuItem("Window/Map Editor/Disable %l")]
     private static void DisableMapEditor()
     {
         ActiveEditorTracker.sharedTracker.isLocked = false;
@@ -60,22 +60,19 @@ public class MapEditor : Editor {
         {
             editMode = !editMode;
         }
-        if (editMode)
-        {
-            DrawItems();
-        } else
-        {
-            DrawTileEditor();
-        }
-
-
-        
-        
-        GUILayout.Label("E - Place an object at the mouse cursor");
-        GUILayout.Label("C - Remove an object at the mouse cursor");
-        GUILayout.Label("R - Start/Stop painting mode");
-        GUILayout.Label("X - Remove last created object");
-        GUILayout.Label("Ctrl + Q - Quit the tool");
+    if (editMode)
+    {
+      DrawItems();
+    }
+    else
+    {
+      DrawTileEditor();
+    }
+        GUILayout.Label("B - Place an object at the mouse cursor");
+        GUILayout.Label("N - Remove an object at the mouse cursor");
+        GUILayout.Label("M - Start/Stop painting mode");
+        GUILayout.Label("; - Remove last created object");
+        GUILayout.Label("Ctrl + L - Quit the tool");
     }
 
   private void Awake()
@@ -86,7 +83,7 @@ public class MapEditor : Editor {
   private void OnSceneGUI()
     {
         Vector3 spawnPosition = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin;
-        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.E)
+        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.B)
         {
             spawnPosition = new Vector3(Mathf.RoundToInt(spawnPosition.x), Mathf.RoundToInt(spawnPosition.y), 0);
             if (!HasObject(spawnPosition))
@@ -101,7 +98,7 @@ public class MapEditor : Editor {
                 }
             }
         }
-        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.R)
+        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.M)
         {
             if (drawing)
             {
@@ -129,7 +126,7 @@ public class MapEditor : Editor {
             HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
             
         }
-        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.X)
+        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Semicolon)
         {
             if (spawnedGo.Count > 0)
             {
@@ -150,7 +147,7 @@ public class MapEditor : Editor {
             }
         }
 
-        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.C)
+        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.N)
         {
             spawnPosition = new Vector3((spawnPosition.x), (spawnPosition.y), 0); 
             if (HasObject(spawnPosition))
