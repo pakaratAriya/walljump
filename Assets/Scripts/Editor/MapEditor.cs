@@ -106,8 +106,6 @@ public class MapEditor : Editor {
         screenSize.x = myCam.ViewportToScreenPoint(Vector3.one).x - myCam.ViewportToScreenPoint(Vector3.zero).x;
         screenSize.y = myCam.ViewportToScreenPoint(Vector3.one).y - myCam.ViewportToScreenPoint(Vector3.zero).y;
         const float screenFactor = 0.8f;
-
-
         Vector2 oneUnit;
         oneUnit.x = (screenSize.x) / camInUnit.x;
         oneUnit.y = (screenSize.y) / camInUnit.y;
