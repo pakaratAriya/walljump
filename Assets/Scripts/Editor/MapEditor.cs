@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 [CustomEditor(typeof(Map))]
 public class MapEditor : Editor {
@@ -160,9 +162,11 @@ public class MapEditor : Editor {
             {
                 if (editMode)
                 {
+                    EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
                     Spawn(spawnPosition);
                 } else
                 {
+                    EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
                     SpawnDependentTile(spawnPosition);
                 }
                 
@@ -199,7 +203,7 @@ public class MapEditor : Editor {
                 Vector2 mouseWorldPosition = new Vector2(spawnPosition.x, spawnPosition.y);
                 RaycastHit2D hitInfo = Physics2D.Raycast(mouseWorldPosition, Vector2.zero);
                 Debug.Log("object = " + hitInfo.collider.gameObject.name);
-                if (hitInfo.collider.GetComponent<Tile>() || hitInfo.collider.GetComponent<IndependentBlock>())
+                if (hitInfo.collider.transform.parent.tag == "drawableObject" || hitInfo.collider.GetComponent<IndependentBlock>())
                 {
                     Vector2 pos = Vector2.zero;
                     bool isIndy = false;
@@ -211,7 +215,7 @@ public class MapEditor : Editor {
                     }
                     if (spawnedGo.Contains(hitInfo.collider.gameObject))
                         spawnedGo.Remove(hitInfo.collider.gameObject);
-                    DestroyImmediate(hitInfo.collider.gameObject);
+                    DestroyImmediate(hitInfo.collider.transform.parent.gameObject);
                     if (isIndy)
                     {
                         ChangeAroundATile(pos);
@@ -227,14 +231,14 @@ public class MapEditor : Editor {
            
     }
 
-    private void SpawnDependentTile(Vector2 pos)
+    private GameObject SpawnDependentTile(Vector2 pos)
     {
         RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
         if (hit.collider != null)
         {
             if (hit.collider.GetComponent<IndependentBlock>() != null)
             {
-                return;
+                return null;
             }
         }
         string myTile = "independentTiles/" + map.AssessTile(pos);
@@ -245,6 +249,7 @@ public class MapEditor : Editor {
         spawnedGo.Add(myGo.gameObject);
 
         ChangeAroundATile(pos);
+        return myGo.gameObject;
     }
 
     private void ChangeAroundATile(Vector2 pos)
@@ -360,7 +365,7 @@ public class MapEditor : Editor {
     }
         
  
-    void Spawn(Vector2 _spawnPosition)
+    GameObject Spawn(Vector2 _spawnPosition)
     {
         GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(selectedPrefab);
         go.transform.position = new Vector3(_spawnPosition.x, _spawnPosition.y, 0);
@@ -411,10 +416,12 @@ public class MapEditor : Editor {
                         map = (Map)target;
                         newgo.transform.parent = map.transform;
                         spawnedGo.Add(newgo);
+                        return newgo;
                     }
                 }
             }
         }
+        return null;
     }
 
     private Vector2 HasBlockTile(Vector2 _spawnPosition)
