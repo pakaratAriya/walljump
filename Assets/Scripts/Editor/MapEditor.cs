@@ -83,6 +83,13 @@ public class MapEditor : Editor {
         myCam = sceneCam.GetComponent<Camera>();
     }
 
+  private void GetCam()
+  {
+    sceneCam = GameObject.Find("SceneCamera");
+    myCam = sceneCam.GetComponent<Camera>();
+   
+  }
+
   private void OnSceneGUI()
     {
         Vector3 spawnPosition = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin;
@@ -98,6 +105,10 @@ public class MapEditor : Editor {
             GUI.backgroundColor = new Color(1, 0, 0, 0.3f);
         }
 
+    if (myCam == null)
+    {
+      GetCam();
+    }
 
         Vector3 camInUnit = myCam.ViewportToWorldPoint(new Vector3(0, 0, 0)) - myCam.ViewportToWorldPoint(new Vector3(1, 1, 0));
         camInUnit.x = myCam.ViewportToWorldPoint(Vector3.one).x - myCam.ViewportToWorldPoint(Vector3.zero).x;
@@ -142,6 +153,7 @@ public class MapEditor : Editor {
                 {
                     SpawnDependentTile(spawnPosition);
                 }
+                EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
             }
         }
         if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.M)
@@ -152,7 +164,9 @@ public class MapEditor : Editor {
             } else
             {
                 drawing = true;
-            }
+        SceneView sceneView = (SceneView)SceneView.sceneViews[0];
+        sceneView.Focus();
+      }
         }
 
         if (drawing)
@@ -192,6 +206,7 @@ public class MapEditor : Editor {
                     ChangeAroundATile(pos);
                 }
                 spawnedGo.RemoveAt(spawnedGo.Count - 1);
+                EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
             }
         }
 
@@ -220,8 +235,8 @@ public class MapEditor : Editor {
                     {
                         ChangeAroundATile(pos);
                     }
-                    
-                    
+                    EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+
                     map = (Map)target;
                 }
                 
@@ -367,6 +382,10 @@ public class MapEditor : Editor {
  
     GameObject Spawn(Vector2 _spawnPosition)
     {
+        if(selectedPrefab == null)
+    {
+      return null;
+    }
         GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(selectedPrefab);
         go.transform.position = new Vector3(_spawnPosition.x, _spawnPosition.y, 0);
 
