@@ -230,7 +230,7 @@ public class MapEditor : Editor {
                     }
                     if (spawnedGo.Contains(hitInfo.collider.gameObject))
                         spawnedGo.Remove(hitInfo.collider.gameObject);
-                    DestroyImmediate(hitInfo.collider.transform.parent.gameObject);
+                    DestroyImmediate(hitInfo.collider.transform.gameObject);
                     if (isIndy)
                     {
                         ChangeAroundATile(pos);
