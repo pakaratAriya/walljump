@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class CharacterHelper : MonoBehaviour {
 
-    public Character player;
-    internal LineRenderer line;
+    private Character player;
+    public LineRenderer line;
     private void Awake()
     {
+        player = FindObjectOfType<Character>();
+        player.ch = this;
         line = GetComponent<LineRenderer>();
+	if(line){
+            print("exist");
+        }else{
+            print("broken");
+        }
     }
 
     public void DrawTraject(Vector2 start, Vector2 velo)

@@ -28,6 +28,7 @@ public class Character : Unit {
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        ch = GetComponentInChildren<CharacterHelper>();
         if (ch)
             ch.line.enabled = false;
         
