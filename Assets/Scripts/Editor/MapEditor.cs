@@ -25,7 +25,7 @@ public class MapEditor : Editor {
         new MovingDirection("LeftI", Vector3.up * -0.5f, Vector3.zero),
     };
     bool drawing = false;
-
+      
     static GameObject sceneCam;
     Camera myCam;
     [MenuItem("Window/Map Editor/Enable %e")]
@@ -43,7 +43,7 @@ public class MapEditor : Editor {
         ActiveEditorTracker.sharedTracker.isLocked = false;
         Selection.activeGameObject = null;
     }
-
+  
     public override void OnInspectorGUI()
     {
         map = (Map)target;
@@ -122,9 +122,11 @@ public class MapEditor : Editor {
         Vector2 oneUnit;
         oneUnit.x = (screenSize.x) / camInUnit.x;
         oneUnit.y = (screenSize.y) / camInUnit.y;
-
+        
         GUI.Box(new Rect(HandleUtility.WorldToGUIPoint(onSceneCursor), oneUnit * screenFactor), "");
-        GUILayout.Box("Map Edit Mode");
+        string mode_string = "Map Edit Mode: ";
+        mode_string += drawing ? " Paint Mode" : "Normal Mode";
+        GUILayout.Box(mode_string);
         if (selectedPrefab == null)
         {
             GUILayout.Box("No prefab selected!");
