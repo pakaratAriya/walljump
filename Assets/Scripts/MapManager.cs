@@ -192,7 +192,7 @@ public class MapManager : MonoBehaviour {
                 ChangePosition();
             } else
             {
-                if(autoGenerate)
+                //if(autoGenerate)
                     SetPosition();
             }
             

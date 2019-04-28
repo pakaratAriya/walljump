@@ -307,7 +307,6 @@ public class Character : Unit {
             }
             else
             {
-                print("charge down");
                 if (power > 0)
                 {
                     power -= chargeRate;
