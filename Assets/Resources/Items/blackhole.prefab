@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4806272003166842}
   - component: {fileID: 212333600865701956}
   - component: {fileID: 114763613455250866}
+  - component: {fileID: 1945698907162373163}
+  - component: {fileID: 8298043812404776454}
   m_Layer: 0
   m_Name: blackhole
   m_TagString: drawableObject
@@ -91,6 +93,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d77eb9b734ec126448be37b22c9675e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &1945698907162373163
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533122327985942}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.69
+--- !u!114 &8298043812404776454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533122327985942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70f1f7be803bcd0468de3fa62d472ef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1838373613055682
@@ -4732,7 +4762,7 @@ ParticleSystem:
 --- !u!199 &199251771606724232
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

@@ -220,7 +220,8 @@ public class MapEditor : Editor {
                 Vector2 mouseWorldPosition = new Vector2(spawnPosition.x, spawnPosition.y);
                 RaycastHit2D hitInfo = Physics2D.Raycast(mouseWorldPosition, Vector2.zero);
                 Debug.Log("object = " + hitInfo.collider.gameObject.name);
-                if (hitInfo.collider.transform.parent.tag == "drawableObject" || hitInfo.collider.GetComponent<IndependentBlock>())
+                if (hitInfo.collider.transform.parent.tag == "drawableObject" || hitInfo.collider.transform.tag == "drawableObject"
+		|| hitInfo.collider.GetComponent<IndependentBlock>())
                 {
                     Vector2 pos = Vector2.zero;
                     bool isIndy = false;
@@ -228,11 +229,26 @@ public class MapEditor : Editor {
                     {
                         GameObject go = hitInfo.collider.gameObject;
                         pos = new Vector2(go.transform.position.x, go.transform.position.y);
-                        isIndy = true;
+                        DestroyImmediate(hitInfo.collider.gameObject);
+                        ChangeAroundATile(pos);
+                        return;
                     }
-                    if (spawnedGo.Contains(hitInfo.collider.gameObject))
-                        spawnedGo.Remove(hitInfo.collider.gameObject);
-                    DestroyImmediate(hitInfo.collider.transform.gameObject);
+		    
+                    
+                    if (spawnedGo.Contains(hitInfo.collider.transform.parent.gameObject)){
+                        spawnedGo.Remove(hitInfo.collider.transform.parent.gameObject);
+                    }
+                    if (hitInfo.collider.transform.parent.gameObject.GetComponent<Tile>() != null)
+                    {
+                        DestroyImmediate(hitInfo.collider.transform.parent.gameObject);
+                    }
+                    else if (hitInfo.collider.GetComponent<Tile>() != null)
+                    {
+                        DestroyImmediate(hitInfo.collider.transform.gameObject);
+                    }
+                   
+                    //Debug.Log(hitInfo.collider.transform.parent.gameObject.name);
+                    //DestroyImmediate(hitInfo.collider.transform.gameObject);
                     if (isIndy)
                     {
                         ChangeAroundATile(pos);
@@ -437,6 +453,7 @@ public class MapEditor : Editor {
                         map = (Map)target;
                         newgo.transform.parent = map.transform;
                         spawnedGo.Add(newgo);
+
                         return newgo;
                     }
                 }
