@@ -80,14 +80,17 @@ public class MapEditor : Editor {
   private void Awake()
   {
         sceneCam = GameObject.Find("SceneCamera");
-        myCam = sceneCam.GetComponent<Camera>();
+        if(sceneCam)
+            myCam = sceneCam.GetComponent<Camera>();
     }
 
   private void GetCam()
   {
-    sceneCam = GameObject.Find("SceneCamera");
-    myCam = sceneCam.GetComponent<Camera>();
-   
+        sceneCam = GameObject.Find("SceneCamera");
+        if (sceneCam)
+        { 
+            myCam = sceneCam.GetComponent<Camera>();
+        }   
   }
 
   private void OnSceneGUI()

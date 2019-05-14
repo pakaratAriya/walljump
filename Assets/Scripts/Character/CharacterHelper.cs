@@ -11,11 +11,6 @@ public class CharacterHelper : MonoBehaviour {
         player = FindObjectOfType<Character>();
         player.ch = this;
         line = GetComponent<LineRenderer>();
-	if(line){
-            print("exist");
-        }else{
-            print("broken");
-        }
     }
 
     public void DrawTraject(Vector2 start, Vector2 velo)
