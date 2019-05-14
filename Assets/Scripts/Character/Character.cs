@@ -21,7 +21,7 @@ public class Character : Unit {
     internal Animator anim;
     public bool onStand = false;
     public bool chargeUp = true;
-    public bool debugLineSize = false;
+    public bool debugLine = false;
     public CharacterHelper ch;
 
 	// Use this for initialization
@@ -123,7 +123,7 @@ public class Character : Unit {
 
     private void DebugLineSize()
     {
-        if (ch)
+        if (ch && debugLine)
         {
             ch.line.enabled = true;
             float sendingPow;

@@ -415,7 +415,7 @@ public class MapManager : MonoBehaviour {
     {
         player.direction = playerStartScale;
         player.transform.localScale = new Vector3(playerStartScale, 1, 1);
-        player.transform.position = playerStartPoint;
+        //player.transform.position = playerStartPoint;
     }
 
     public static int CheckCamPos(float y)
