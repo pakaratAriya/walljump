@@ -8,6 +8,7 @@ public class Coin : Pickup {
     {
         if (!player.dead)
         {
+            player.coin++;
             ParticleSystem pickupPar = PoolManager.Spawn("CoinParticle");
             pickupPar.transform.position = transform.position;
             MapManager.Despawn(GetComponent<Tile>());

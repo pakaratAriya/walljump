@@ -23,6 +23,8 @@ public class Character : Unit {
     public bool chargeUp = true;
     public bool debugLine = false;
     public CharacterHelper ch;
+    public int coin = 0;
+    public int gem = 0;
 
 	// Use this for initialization
 	void Start () {

@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class StartGame : MonoBehaviour {
-
-	public void StartTheGame()
+    [SerializeField]
+    private string levelName;
+    public void StartTheGame()
     {
-        SceneManager.LoadScene(1);
-        MapManager.ResetValue();
-        PoolManager.ResetValue();
+	SceneManager.LoadScene(levelName);
+	MapManager.ResetValue();
+	PoolManager.ResetValue();
     }
 }
