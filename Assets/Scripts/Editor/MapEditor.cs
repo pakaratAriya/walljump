@@ -96,7 +96,7 @@ public class MapEditor : Editor {
   private void OnSceneGUI()
     {
         Vector3 spawnPosition = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin;
-
+        DrawLine();
         Handles.BeginGUI();
         Vector3 onSceneCursor = new Vector3(Mathf.RoundToInt(spawnPosition.x) - 0.5f, Mathf.RoundToInt(spawnPosition.y) + 0.5f, 0);
         if (selectedPrefab || !editMode)
@@ -265,6 +265,16 @@ public class MapEditor : Editor {
         }
 
            
+    }
+
+    private void DrawLine(){
+        int gapSpace = 30;
+        int gapWidth = 10;
+	for(int i = 0; i < 11; i++){
+            Debug.DrawLine(new Vector3(-gapWidth, gapSpace * i, 0), new Vector3(gapWidth, gapSpace * i, 0));
+            Handles.Label(new Vector3(-gapWidth, gapSpace * i, 0), "" + gapSpace * i);
+        }
+        
     }
 
     private GameObject SpawnDependentTile(Vector2 pos)

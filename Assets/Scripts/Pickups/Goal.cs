@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Goal : MonoBehaviour {
     // Update is called once per frame
     float spinSpeed = 30;
+    private List<string> gemArray = new List<string>();
     Character ch;
     void Update () {
 	transform.Rotate(0,0,Time.deltaTime * spinSpeed);
@@ -28,10 +29,17 @@ public class Goal : MonoBehaviour {
         }
     }
 
+    public void AddGem(string gem){
+        gemArray.Add(gem);
+    }
+
     void EndLevel(){
         SceneManager.LoadScene("MenuScene");
         int c = PlayerPrefs.GetInt("Coins");
         PlayerPrefs.SetInt("Coins", c + ch.coin);
+	foreach(string gem in gemArray){
+            PlayerPrefs.SetInt(gem, 1);
+        }
     }
 
 
