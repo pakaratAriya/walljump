@@ -40,7 +40,7 @@ public class Armadillo : Enemy
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
         if(col.gameObject.tag == "Tile"){
             rb.gravityScale = 0;
