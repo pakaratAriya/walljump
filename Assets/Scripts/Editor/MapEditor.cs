@@ -262,9 +262,7 @@ public class MapEditor : Editor {
                 }
                 
             }
-        }
-
-           
+        }        
     }
 
     private void DrawLine(){

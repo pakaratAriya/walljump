@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 61737282938017296}
   - component: {fileID: 114336912718645342}
   - component: {fileID: 50091288270315872}
+  - component: {fileID: 5361282799165061534}
   m_Layer: 0
   m_Name: Spider
   m_TagString: drawableObject
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1296e803db073f444b015f1484ee9b75, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9f0105167acb3f34cb6b5ad50033b607, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -80,7 +81,7 @@ SpriteRenderer:
   m_Size: {x: 1.2, y: 1.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &114398245161452488
@@ -161,3 +162,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5361282799165061534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1914542355280738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70f1f7be803bcd0468de3fa62d472ef9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
