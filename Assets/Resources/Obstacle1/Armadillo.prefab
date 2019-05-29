@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 336362550302344421}
   - component: {fileID: 336362550302344420}
   - component: {fileID: 1682044651140531358}
+  - component: {fileID: 3650233345577703240}
   m_Layer: 0
   m_Name: Armadillo
   m_TagString: drawableObject
@@ -149,3 +150,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f1f7be803bcd0468de3fa62d472ef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3650233345577703240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336362550302344416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adcbe746d8a65c843866a75eeafd5f1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: 1
+  dashable: 0
