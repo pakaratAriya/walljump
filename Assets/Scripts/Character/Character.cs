@@ -25,6 +25,7 @@ public class Character : Unit {
     public CharacterHelper ch;
     public int coin = 0;
     public int gem = 0;
+    internal bool hoveringButton = false;
 
 	// Use this for initialization
 	void Start () {
@@ -38,7 +39,8 @@ public class Character : Unit {
 	
 	// Update is called once per frame
 	void Update () {
-        if (dead)
+       
+        if (dead || hoveringButton)
         {
             return;
         }
@@ -71,19 +73,19 @@ public class Character : Unit {
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
+               
             if (rb.gravityScale != 0)
             {
                 rb.gravityScale = 0;
                 rb.velocity = Vector3.zero;
                 anim.SetBool("Dash", true);
-                for(int i = 0; i < 10; i++)
+                /*for(int i = 0; i < 10; i++)
                 {
                     //ParticleSystem par = PoolManager.Spawn("ChargeParticle");
                     //par.transform.position = transform.position;
                 }
-                
+                */
                 Invoke("Dash", 0.2f);
-
             }
             //else if (charging && !onStand)
             //{
@@ -329,7 +331,6 @@ public class Character : Unit {
 
     public void Dash()
     {
-        
         rb.velocity = new Vector3(20 * transform.localScale.x, 0, 0);
         dashing = true;
         GetComponent<TrailRenderer>().enabled = true;
@@ -371,5 +372,10 @@ public class Character : Unit {
     {
         yield return new WaitForSeconds(2);
         MapManager.PlayerDie();
+    }
+
+    public void ResetState()
+    {
+        charging = false;
     }
 }
