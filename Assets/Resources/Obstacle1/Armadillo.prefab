@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 43d0ea0f707bcff449db3ad39b029a9f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 71a9d8a20ed27bf459b74c508c131968, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathZone: {fileID: 0}
   originalScale: 0
-  spinningSpr: {fileID: 21300000, guid: 1e8c1e0dbdcab0048b5a44d00f565e02, type: 3}
+  spinningSpr: {fileID: 21300000, guid: 1a2a659c19f85304e9c66594405a0271, type: 3}
   waitTime: 1
   jumpSpeed: {x: 4, y: 1}
 --- !u!50 &336362550302344421
