@@ -10,6 +10,7 @@ public class PoolManager : MonoBehaviour {
     private static PoolManager poolManager;
     // Use this for initialization
     void Start () {
+        ResetValue();
         poolManager = this;
         parList.AddRange(Resources.LoadAll<ParticleSystem>("Particles"));
         foreach (ParticleSystem par in parList)

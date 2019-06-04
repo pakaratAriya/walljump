@@ -5,17 +5,25 @@ using UnityEngine;
 public class GamePlayUI : MonoBehaviour
 {
     public GameObject PauseMenu;
+    private Character ch;
+
+    void Start()
+    {
+        ch = FindObjectOfType<Character>();
+    }
 
     public void PauseGame()
     {
         PauseMenu.SetActive(true);
         Time.timeScale = 0;
+        ch.hoveringButton = true;
     }
 
     public void ResumeGame()
     {
         PauseMenu.SetActive(false);
-        Time.timeScale = 1;        
+        Time.timeScale = 1;
+        ch.hoveringButton = false;
     }
 
 }

@@ -5,14 +5,15 @@ using UnityEngine.SceneManagement;
 using System.IO;
 
 public class StartGame : MonoBehaviour {
-    [SerializeField]
-    private string levelName;
+    private string levelName = "LevelSelect";
     public void StartTheGame()
     {
 	SceneManager.LoadScene(levelName);
 	MapManager.ResetValue();
 	PoolManager.ResetValue();
     }
+
+
 
     public void ResetValue(){
         PlayerPrefs.SetInt("Coins", 0);

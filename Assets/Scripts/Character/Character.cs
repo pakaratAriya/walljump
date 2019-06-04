@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class Character : Unit {
 
-    internal bool closeWall = true;
+    public bool closeWall = true;
     public int direction = 1;
-    internal Rigidbody2D rb;
+    public Rigidbody2D rb;
     public float minPow = 8;
     public float maxPow = 15;
     public float power = 0;
@@ -17,7 +17,7 @@ public class Character : Unit {
     public bool dashing = false;
     public bool dead = false;
     public bool invulnerable = false;
-    bool climbing = false;
+    public bool climbing = false;
     internal Animator anim;
     public bool onStand = false;
     public bool chargeUp = true;
@@ -25,7 +25,7 @@ public class Character : Unit {
     public CharacterHelper ch;
     public int coin = 0;
     public int gem = 0;
-    internal bool hoveringButton = false;
+    public bool hoveringButton = false;
 
 	// Use this for initialization
 	void Start () {
@@ -67,7 +67,7 @@ public class Character : Unit {
             
             Jump();
             chargeUp = true;
-            DisableLineSize();
+            //DisableLineSize();
         }
 
 
