@@ -6,15 +6,18 @@ using UnityEngine.SceneManagement;
 public class Gem : Pickup
 {
     public string gemName;
+    private InGameGemUI gemUi;
     
     [Range(1,3)]
     public int index = 1;
 
-    private void Start()
+    private void Awake()
     {
         string sceneName = SceneManager.GetActiveScene().name;
+        gemUi = FindObjectOfType<InGameGemUI>();
         gemName = "Gem-" + sceneName + index;
         if (PlayerPrefs.GetInt(gemName)!=0){
+            gemUi.AddGem(index);
             Destroy(gameObject);
         }
     }
@@ -28,6 +31,7 @@ public class Gem : Pickup
             pickupPar.transform.position = transform.position;
             MapManager.Despawn(GetComponent<Tile>());
             FindObjectOfType<Goal>().AddGem(gemName);
+            gemUi.AddGem(index);
         }
 
     }
