@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestGym/GameTestGym.unity
     guid: 534c22bbbec9fd34e956ef97297f8b90
+  - enabled: 1
+    path: Assets/Scenes/Menus/LevelSelect.unity
+    guid: e643957366b405545bba9c28708b7453
+  - enabled: 1
+    path: Assets/Scenes/Menus/Shop.unity
+    guid: 85415e14d0ef61e4e942cf979c6e1e6f
   m_configObjects: {}
