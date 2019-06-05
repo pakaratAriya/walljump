@@ -25,10 +25,10 @@ public class Character : Unit {
     public CharacterHelper ch;
     public int coin = 0;
     public int gem = 0;
-    public bool hoveringButton = false;
+    public bool notPlay = false;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         ch = GetComponentInChildren<CharacterHelper>();
@@ -40,7 +40,7 @@ public class Character : Unit {
 	// Update is called once per frame
 	void Update () {
        
-        if (dead || hoveringButton)
+        if (dead || notPlay)
         {
             return;
         }
