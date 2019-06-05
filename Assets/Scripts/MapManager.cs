@@ -123,6 +123,10 @@ public class MapManager : MonoBehaviour {
                 enemyPool[enemy.name] = new Stack<Enemy>();
             }
         }
+        if (!player)
+        {
+            return;
+        }
         LoadPlayerSavePoint();
         currentPoint = Mathf.FloorToInt(player.transform.position.y) - 10;
         InitiateLevel();
@@ -185,6 +189,10 @@ public class MapManager : MonoBehaviour {
 
     private void Update()
     {
+        if (!player)
+        {
+            return;
+        }
         if (currentPoint - player.transform.position.y <= upperBoundary)
         {
             if (autoGenerate)
@@ -413,6 +421,8 @@ public class MapManager : MonoBehaviour {
 
     public static void LoadPlayerSavePoint()
     {
+        if (!player)
+            return;
         player.direction = playerStartScale;
         player.transform.localScale = new Vector3(playerStartScale, 1, 1);
         //player.transform.position = playerStartPoint;

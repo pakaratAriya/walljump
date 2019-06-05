@@ -19,6 +19,11 @@ public class Armadillo : Enemy
         transform.eulerAngles = new Vector3(0, 0, 270);
         sr = GetComponent<SpriteRenderer>();
         idleSpr = sr.sprite;
+        
+    }
+
+    private void OnEnable()
+    {
         armadilloMove = StartCoroutine(ArmadilloMoving());
     }
 

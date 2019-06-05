@@ -8,12 +8,12 @@ public class HoveringButton : MonoBehaviour,IPointerEnterHandler, IPointerExitHa
     Character ch;
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ch.hoveringButton = true;
+        ch.notPlay = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        ch.hoveringButton = false;
+        ch.notPlay = false;
     }
     
     void Start()

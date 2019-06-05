@@ -17,8 +17,8 @@ public class Snail : Enemy {
         rightScale = -1;
         leftAngle = -90;
         rightAngle = 90;
-        leftOffset = 0.8f;
-        rightOffset = -0.8f;
+        leftOffset = 0.28f;
+        rightOffset = -0.28f;
     }
 
     private void OnEnable()
@@ -27,9 +27,25 @@ public class Snail : Enemy {
         deathZone.enable = true;
         rb.freezeRotation = true;
         rb.gravityScale = 0;
+        
+        if(transform.position.x > 0)
+        {
+            RaycastHit2D rh = Physics2D.Raycast(transform.position, Vector2.right);
+            transform.position = rh.point + (Vector2.right * rightOffset);
+            transform.eulerAngles = Vector3.forward * rightAngle;
+            transform.localScale = new Vector3(-1,1,1);
+            facingDirection = -1;
+        }
+        else
+        {
+            RaycastHit2D rh = Physics2D.Raycast(transform.position, Vector2.left);
+            transform.position = rh.point + (Vector2.right * leftOffset);
+            transform.eulerAngles = Vector3.forward * leftAngle;
+            transform.localScale = Vector3.one;
+            facingDirection = 1;
+        }
         originalScale = transform.localScale.x;
         direction = new Vector3(originalScale, 0, 0);
-
     }
 
     protected override void Update()
@@ -41,7 +57,11 @@ public class Snail : Enemy {
         }
         else
         {
-            if (MapManager.player.transform.position.y + initLength >= transform.position.y)
+            if (!MapManager.player)
+            {
+                snailState = state.Walk;
+            }
+            else if (MapManager.player.transform.position.y + initLength >= transform.position.y)
             {
                 snailState = state.Walk;
             }
@@ -57,12 +77,12 @@ public class Snail : Enemy {
             if ((hits.collider.GetComponent<DeathZone>() != null && hits.collider.GetComponent<DeathZone>() != deathZone)
                 || hits.collider.GetComponent<TrapTrigger>() != null || hits.collider.GetComponent<Tile>() != null)
             {
-                TurnBack();
+                //TurnBack();
             }
         }
         if (hitsDown.collider == null)
         {
-            TurnBack();
+            //TurnBack();
         }
 
     }

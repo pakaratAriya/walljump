@@ -28,10 +28,14 @@ public class Enemy : Unit {
 
     protected virtual void Update()
     {
-        if (transform.position.y < MapManager.player.transform.position.y - 20)
+        if (MapManager.player)
         {
-            MapManager.DespawnEnemy(this);
+            if (transform.position.y < MapManager.player.transform.position.y - 20)
+            {
+                MapManager.DespawnEnemy(this);
+            }
         }
+        
     }
 
 }

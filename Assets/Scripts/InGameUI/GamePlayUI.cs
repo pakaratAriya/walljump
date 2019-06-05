@@ -16,14 +16,14 @@ public class GamePlayUI : MonoBehaviour
     {
         PauseMenu.SetActive(true);
         Time.timeScale = 0;
-        ch.hoveringButton = true;
+        ch.notPlay = true;
     }
 
     public void ResumeGame()
     {
         PauseMenu.SetActive(false);
         Time.timeScale = 1;
-        ch.hoveringButton = false;
+        ch.notPlay = false;
     }
 
 }
