@@ -194,7 +194,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4980677173584851753}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 25288584679518470}
+        m_MethodName: LoadLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &6630163383986349544
@@ -209,6 +220,7 @@ GameObject:
   - component: {fileID: 4290998026637634756}
   - component: {fileID: 18818425920367705}
   - component: {fileID: 7393423808040874643}
+  - component: {fileID: 25288584679518470}
   m_Layer: 5
   m_Name: LevelSelectPanel
   m_TagString: Untagged
@@ -313,9 +325,39 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 18818425920367705}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 25288584679518470}
+        m_MethodName: LoadLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &25288584679518470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6630163383986349544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d439995a7ce528b4981c4ecfea8e2c2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelTxt: {fileID: 7515201633527230912}
+  gemUIs:
+  - {fileID: 7835480571638066116}
+  - {fileID: 7835480571707838704}
+  - {fileID: 7835480571457704043}
+  emptySpr: {fileID: 21300000, guid: a2588811fb0938a4ca28af464ec1d437, type: 3}
+  gemSpr: {fileID: 21300000, guid: c3d941f2101b53349aa2684433b3c95d, type: 3}
 --- !u!1001 &2441345935081725292
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -441,3 +483,39 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2441345935081725292}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7835480571638066116 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5574435036911236776, guid: 76899a7a02ea62a42901f9aa11c1df04,
+    type: 3}
+  m_PrefabInstance: {fileID: 2441345935081725292}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7835480571707838704 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5574435036993490332, guid: 76899a7a02ea62a42901f9aa11c1df04,
+    type: 3}
+  m_PrefabInstance: {fileID: 2441345935081725292}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7835480571457704043 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5574435037209021703, guid: 76899a7a02ea62a42901f9aa11c1df04,
+    type: 3}
+  m_PrefabInstance: {fileID: 2441345935081725292}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
