@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 3520499365879925359}
   - component: {fileID: 3899204177882685294}
   - component: {fileID: 1389268939193126152}
+  - component: {fileID: 6208736187292297193}
   m_Layer: 0
-  m_Name: N-3XD2-Right
+  m_Name: N-3XD-2-Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,3 +120,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &6208736187292297193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6171643842777248000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8569026cd7d08c42bb1cf5d4607c2b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
