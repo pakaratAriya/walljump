@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 6780144666946380852}
   - component: {fileID: 1399212976386479133}
   - component: {fileID: 547622445947234293}
+  - component: {fileID: 5045413686268782023}
   m_Layer: 0
-  m_Name: N-3XL2-Bottom
+  m_Name: N-3XL-2-Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,5 +118,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b43c9ad9db3dffa45a253e97e84d95de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5045413686268782023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4940832023062483337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8569026cd7d08c42bb1cf5d4607c2b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

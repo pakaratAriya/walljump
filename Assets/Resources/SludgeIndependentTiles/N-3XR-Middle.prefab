@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7773354252379314178}
   - component: {fileID: 5204281757564343463}
   - component: {fileID: 3575985080098863621}
+  - component: {fileID: 2994559593226229695}
   m_Layer: 0
   m_Name: N-3XR-Middle
   m_TagString: Untagged
@@ -119,3 +120,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2994559593226229695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7946754501112641416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8569026cd7d08c42bb1cf5d4607c2b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

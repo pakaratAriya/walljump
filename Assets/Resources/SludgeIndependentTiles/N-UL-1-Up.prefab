@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 3286721842177597475}
   - component: {fileID: 8468441921479684501}
   - component: {fileID: 1857030942025750190}
+  - component: {fileID: 1084891870704908489}
   m_Layer: 0
-  m_Name: N-UL1-Up
+  m_Name: N-UL-1-Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,5 +118,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b43c9ad9db3dffa45a253e97e84d95de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1084891870704908489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410667082474586387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8569026cd7d08c42bb1cf5d4607c2b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

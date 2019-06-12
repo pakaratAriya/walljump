@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1324767647982670824}
   - component: {fileID: 1374924493620299853}
   - component: {fileID: 6157930077420037394}
+  - component: {fileID: 6043881421555990689}
   m_Layer: 0
   m_Name: N-3XU-Left
   m_TagString: Untagged
@@ -117,5 +118,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b43c9ad9db3dffa45a253e97e84d95de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6043881421555990689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698722410286252140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8569026cd7d08c42bb1cf5d4607c2b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
