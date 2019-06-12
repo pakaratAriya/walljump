@@ -33,6 +33,11 @@ public class Map : MonoBehaviour {
         return returnTile;
     }
 
+    public void ChangeSludgeTile()
+    {
+
+    }
+
     public void ChangeTile(Vector2 pos, string to)
     {
         bool[] grid = { false, false, false, false, false, false, false, false };
