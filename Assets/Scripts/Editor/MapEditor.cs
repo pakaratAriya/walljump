@@ -159,7 +159,11 @@ public class MapEditor : Editor {
                     SpawnDependentTile(spawnPosition);
                 }
                 EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+            }else if (!editMode && drawingIndependentTileName == "sludge")
+            {
+                SpawnDependentTile(spawnPosition);
             }
+            
         }
         if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.M)
         {
@@ -277,16 +281,16 @@ public class MapEditor : Editor {
 
     private GameObject SpawnDependentTile(Vector2 pos)
     {
-        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
-        if (hit.collider != null)
-        {
-            if (hit.collider.GetComponent<IndependentBlock>() != null)
-            {
-                return null;
-            }
-        }
         if (drawingIndependentTileName == "tile")
         {
+            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+            if (hit.collider != null)
+            {
+                if (hit.collider.GetComponent<IndependentBlock>() != null)
+                {
+                    return null;
+                }
+            }
             string myTile = "independentTiles/" + map.AssessTile(pos);
             IndependentBlock myObj = Resources.Load<IndependentBlock>(myTile);
             IndependentBlock myGo = (IndependentBlock)PrefabUtility.InstantiatePrefab(myObj);
@@ -299,10 +303,33 @@ public class MapEditor : Editor {
         }
         else
         {
-
-        }
-        return null;
-        
+            Debug.Log("Try to draw sludge");
+            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+            if (hit.collider != null)
+            {
+                Debug.Log("hit something");
+                if (hit.collider.GetComponent<IndependentBlock>() == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    DestroyImmediate(hit.collider.gameObject);
+                }
+            }
+            else
+            {
+                return null;
+            }
+            string myTile = "SludgeIndependentTiles/" + map.AssessTile(pos) + "-Middle";
+            Debug.Log(myTile);
+            IndependentBlock myObj = Resources.Load<IndependentBlock>(myTile);
+            IndependentBlock myGo = (IndependentBlock)PrefabUtility.InstantiatePrefab(myObj);
+            myGo.transform.position = new Vector3(pos.x, pos.y, 0);
+            myGo.transform.parent = map.transform;
+            spawnedGo.Add(myGo.gameObject);
+            return myGo.gameObject;
+        }        
     }
 
     private void ChangeAroundATile(Vector2 pos)
@@ -402,7 +429,8 @@ public class MapEditor : Editor {
             GUI.backgroundColor = Color.grey;
         }
         Texture prefabTexture = AssetPreview.GetAssetPreview(Resources.Load("independentTiles/N-N"));
-        if(GUILayout.Button(prefabTexture, GUILayout.Width(70), GUILayout.Height(70))){
+        Texture sludgeTexture = AssetPreview.GetAssetPreview(Resources.Load("SludgeIndependentTiles/N-3XU-Middle"));
+        if (GUILayout.Button(prefabTexture, GUILayout.Width(70), GUILayout.Height(70))){
             drawingIndependentTileName = "tile";
         }
         if (drawingIndependentTileName == "tile")
@@ -413,7 +441,7 @@ public class MapEditor : Editor {
         {
             GUI.backgroundColor = Color.green;
         }
-        if(GUILayout.Button("sludge", GUILayout.Width(70), GUILayout.Height(70)))
+        if(GUILayout.Button(sludgeTexture, GUILayout.Width(70), GUILayout.Height(70)))
         {
             drawingIndependentTileName = "sludge";
         }
