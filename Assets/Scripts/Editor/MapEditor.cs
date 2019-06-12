@@ -159,7 +159,7 @@ public class MapEditor : Editor {
                     SpawnDependentTile(spawnPosition);
                 }
                 EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-            }else if (!editMode && drawingIndependentTileName == "sludge")
+            }else if (!editMode)
             {
                 SpawnDependentTile(spawnPosition);
             }
@@ -281,19 +281,38 @@ public class MapEditor : Editor {
 
     private GameObject SpawnDependentTile(Vector2 pos)
     {
+        string myTile = "";
+        IndependentBlock myObj = null;
+        IndependentBlock myGo = null;
         if (drawingIndependentTileName == "tile")
         {
             RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
             if (hit.collider != null)
             {
+                if (hit.collider.GetComponent<SludgeTile>() != null)
+                {
+                    DestroyImmediate(hit.collider.gameObject);
+                    myTile = "independentTiles/" + map.AssessTile(pos);
+                    myObj = Resources.Load<IndependentBlock>(myTile);
+                    myGo = (IndependentBlock)PrefabUtility.InstantiatePrefab(myObj);
+                    myGo.transform.position = new Vector3(pos.x, pos.y, 0);
+                    myGo.transform.parent = map.transform;
+                    spawnedGo.Add(myGo.gameObject);
+
+                    ChangeAroundSludgeTile(pos);
+                    return myGo.gameObject;
+                }
+
+                
+
                 if (hit.collider.GetComponent<IndependentBlock>() != null)
                 {
                     return null;
                 }
             }
-            string myTile = "independentTiles/" + map.AssessTile(pos);
-            IndependentBlock myObj = Resources.Load<IndependentBlock>(myTile);
-            IndependentBlock myGo = (IndependentBlock)PrefabUtility.InstantiatePrefab(myObj);
+            myTile = "independentTiles/" + map.AssessTile(pos);
+            myObj = Resources.Load<IndependentBlock>(myTile);
+            myGo = (IndependentBlock)PrefabUtility.InstantiatePrefab(myObj);
             myGo.transform.position = new Vector3(pos.x, pos.y, 0);
             myGo.transform.parent = map.transform;
             spawnedGo.Add(myGo.gameObject);
@@ -303,17 +322,19 @@ public class MapEditor : Editor {
         }
         else
         {
-            Debug.Log("Try to draw sludge");
             RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
             if (hit.collider != null)
             {
-                Debug.Log("hit something");
                 if (hit.collider.GetComponent<IndependentBlock>() == null)
                 {
                     return null;
                 }
                 else
                 {
+                    if (hit.collider.name.Contains("ALL"))
+                    {
+                        return null;
+                    }
                     DestroyImmediate(hit.collider.gameObject);
                 }
             }
@@ -321,16 +342,66 @@ public class MapEditor : Editor {
             {
                 return null;
             }
-            string myTile = "SludgeIndependentTiles/" + map.AssessTile(pos);
+            myTile = "SludgeIndependentTiles/" + map.AssessTile(pos);
             myTile += map.AssessSludgeType(pos, myTile);
             Debug.Log(myTile);
-            IndependentBlock myObj = Resources.Load<IndependentBlock>(myTile);
-            IndependentBlock myGo = (IndependentBlock)PrefabUtility.InstantiatePrefab(myObj);
+            myObj = Resources.Load<IndependentBlock>(myTile);
+            myGo = (IndependentBlock)PrefabUtility.InstantiatePrefab(myObj);
             myGo.transform.position = new Vector3(pos.x, pos.y, 0);
             myGo.transform.parent = map.transform;
             spawnedGo.Add(myGo.gameObject);
+            ChangeAroundSludgeTile(pos);
             return myGo.gameObject;
         }        
+    }
+
+    private void ChangeAroundSludgeTile(Vector2 pos)
+    {
+        for (int i = (int)pos.x - 1; i <= (int)pos.x + 1; i++)
+        {
+            for (int j = (int)pos.y - 1; j <= (int)pos.y + 1; j++)
+            {
+                if (i != pos.x || j != pos.y)
+                {
+                    RaycastHit2D hitInfo = Physics2D.Raycast(new Vector2(i, j), Vector2.zero);
+                    if (hitInfo.collider != null)
+                    {
+                        if (hitInfo.collider.GetComponent<SludgeTile>() != null)
+                        {
+                            int id = 0;
+                            bool inSpawnedGo = false;
+                            if (spawnedGo.Contains(hitInfo.collider.gameObject))
+                            {
+                                inSpawnedGo = true;
+                                id = spawnedGo.IndexOf(hitInfo.collider.gameObject);
+                            }
+
+                            DestroyImmediate(hitInfo.collider.gameObject);
+                            if (inSpawnedGo)
+                            {
+                                spawnedGo.RemoveAt(id);
+                            }
+                            string newTile = "SludgeIndependentTiles/" + map.AssessTile(new Vector2(i, j));
+                            newTile += map.AssessSludgeType(new Vector2(i,j) , newTile);
+                            IndependentBlock newObj = Resources.Load<IndependentBlock>(newTile);
+                            IndependentBlock newGo = (IndependentBlock)PrefabUtility.InstantiatePrefab(newObj);
+                            newGo.transform.position = new Vector3(i, j, 0);
+                            newGo.transform.parent = map.transform;
+                            if (inSpawnedGo)
+                            {
+                                spawnedGo.Insert(id, newGo.gameObject);
+                            }
+                            else
+                            {
+                                spawnedGo.Add(newGo.gameObject);
+                            }
+
+
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void ChangeAroundATile(Vector2 pos)

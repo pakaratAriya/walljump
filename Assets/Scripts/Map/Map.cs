@@ -35,7 +35,8 @@ public class Map : MonoBehaviour {
 
     public string AssessSludgeType(Vector2 pos, string tileName)
     {
-        if (tileName.Contains("3XD") || tileName.Contains("3XU")||tileName.Contains("N-U")||tileName.Contains("N-D"))
+
+        if (tileName.Contains("3XD") || tileName.Contains("3XU"))
         {
             bool left = CheckSludgePosition(pos, Vector2.left);
             bool right = CheckSludgePosition(pos, Vector2.right);
@@ -49,7 +50,7 @@ public class Map : MonoBehaviour {
             }
             return "-Middle";
         }
-        if (tileName.Contains("3XL") || tileName.Contains("3XR") || tileName.Contains("N-L") || tileName.Contains("N-R"))
+        if (tileName.Contains("3XL") || tileName.Contains("3XR"))
         {
             bool bottom = CheckSludgePosition(pos, Vector2.down);
             bool top = CheckSludgePosition(pos, Vector2.up);
@@ -119,16 +120,75 @@ public class Map : MonoBehaviour {
             }
             return "-Middle";
         }
+        if (tileName.Contains("N-U"))
+        {
+            bool left = CheckSludgePosition(pos, Vector2.left + Vector2.up);
+            bool right = CheckSludgePosition(pos, Vector2.right + Vector2.up);
+            if (left && !right)
+            {
+                return "-Right";
+            }
+            if (right && !left)
+            {
+                return "-Left";
+            }
+            return "-Middle";
+        }
+        if (tileName.Contains("N-L"))
+        {
+            bool top = CheckSludgePosition(pos, Vector2.left + Vector2.up);
+            bool bottom = CheckSludgePosition(pos, Vector2.left + Vector2.down);
+            if (top && !bottom)
+            {
+                return "-Bottom";
+            }
+            if (bottom && !top)
+            {
+                return "-Top";
+            }
+            return "-Middle";
+        }
+        if (tileName.Contains("N-D"))
+        {
+            bool left = CheckSludgePosition(pos, Vector2.left + Vector2.down);
+            bool right = CheckSludgePosition(pos, Vector2.right + Vector2.down);
+            if (left && !right)
+            {
+                return "-Right";
+            }
+            if (right && !left)
+            {
+                return "-Left";
+            }
+            return "-Middle";
+        }
+        if (tileName.Contains("N-R"))
+        {
+            bool top = CheckSludgePosition(pos, Vector2.right + Vector2.up);
+            bool bottom = CheckSludgePosition(pos, Vector2.right + Vector2.down);
+            Debug.Log("top: " + top + " bottom: " + bottom);
+            if (top && !bottom)
+            {
+                return "-Bottom";
+            }
+            if (bottom && !top)
+            {
+                return "-Top";
+            }
+            return "-Middle";
+        }
         return "-Middle";
     }
 
     public bool CheckSludgePosition(Vector2 pos, Vector2 dir)
     {
+
         RaycastHit2D hitInfo = Physics2D.Raycast(pos + dir, Vector2.zero);
         if (hitInfo.collider != null)
         {
             if (hitInfo.collider.GetComponent<SludgeTile>() != null)
             {
+                Debug.Log("Has sludge at " + (pos + dir));
                 return true;
             }
         }
