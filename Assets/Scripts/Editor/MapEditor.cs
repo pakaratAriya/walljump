@@ -321,7 +321,8 @@ public class MapEditor : Editor {
             {
                 return null;
             }
-            string myTile = "SludgeIndependentTiles/" + map.AssessTile(pos) + "-Middle";
+            string myTile = "SludgeIndependentTiles/" + map.AssessTile(pos);
+            myTile += map.AssessSludgeType(pos, myTile);
             Debug.Log(myTile);
             IndependentBlock myObj = Resources.Load<IndependentBlock>(myTile);
             IndependentBlock myGo = (IndependentBlock)PrefabUtility.InstantiatePrefab(myObj);

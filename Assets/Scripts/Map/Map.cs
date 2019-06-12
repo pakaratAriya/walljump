@@ -33,7 +33,7 @@ public class Map : MonoBehaviour {
         return returnTile;
     }
 
-    public string assessSludgeType(Vector2 pos, string tileName)
+    public string AssessSludgeType(Vector2 pos, string tileName)
     {
         if (tileName.Contains("3XD") || tileName.Contains("3XU")||tileName.Contains("N-U")||tileName.Contains("N-D"))
         {
@@ -63,21 +63,63 @@ public class Map : MonoBehaviour {
             }
             return "-Middle";
         }
-        if (tileName.Contains("3XR"))
+        if (tileName.Contains("DL"))
         {
             bool left = CheckSludgePosition(pos, Vector2.left);
-            bool right = CheckSludgePosition(pos, Vector2.right);
-            if (left && !right)
+            bool bottom = CheckSludgePosition(pos, Vector2.down);
+            if (left && !bottom)
             {
-                return "-Right";
+                return "-Bottom";
             }
-            if (right && !left)
+            if (bottom && !left)
             {
                 return "-Left";
             }
             return "-Middle";
         }
-        return "";
+        if (tileName.Contains("DR"))
+        {
+            bool right = CheckSludgePosition(pos, Vector2.right);
+            bool bottom = CheckSludgePosition(pos, Vector2.down);
+            if (right && !bottom)
+            {
+                return "-Bottom";
+            }
+            if (bottom && !right)
+            {
+                return "-Right";
+            }
+            return "-Middle";
+        }
+        if (tileName.Contains("UL"))
+        {
+            bool left = CheckSludgePosition(pos, Vector2.left);
+            bool top = CheckSludgePosition(pos, Vector2.up);
+            if (left && !top)
+            {
+                return "-Top";
+            }
+            if (top && !left)
+            {
+                return "-Left";
+            }
+            return "-Middle";
+        }
+        if (tileName.Contains("UR"))
+        {
+            bool right = CheckSludgePosition(pos, Vector2.right);
+            bool top = CheckSludgePosition(pos, Vector2.up);
+            if (right && !top)
+            {
+                return "-Top";
+            }
+            if (top && !right)
+            {
+                return "-Right";
+            }
+            return "-Middle";
+        }
+        return "-Middle";
     }
 
     public bool CheckSludgePosition(Vector2 pos, Vector2 dir)
