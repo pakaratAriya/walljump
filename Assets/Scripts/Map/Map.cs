@@ -33,9 +33,64 @@ public class Map : MonoBehaviour {
         return returnTile;
     }
 
-    public void ChangeSludgeTile()
+    public string assessSludgeType(Vector2 pos, string tileName)
     {
+        if (tileName.Contains("3XD") || tileName.Contains("3XU")||tileName.Contains("N-U")||tileName.Contains("N-D"))
+        {
+            bool left = CheckSludgePosition(pos, Vector2.left);
+            bool right = CheckSludgePosition(pos, Vector2.right);
+            if(left && !right)
+            {
+                return "-Right";
+            }
+            if(right && !left)
+            {
+                return "-Left";
+            }
+            return "-Middle";
+        }
+        if (tileName.Contains("3XL") || tileName.Contains("3XR") || tileName.Contains("N-L") || tileName.Contains("N-R"))
+        {
+            bool bottom = CheckSludgePosition(pos, Vector2.down);
+            bool top = CheckSludgePosition(pos, Vector2.up);
+            if (bottom && !top)
+            {
+                return "-Top";
+            }
+            if (top && !bottom)
+            {
+                return "-Bottom";
+            }
+            return "-Middle";
+        }
+        if (tileName.Contains("3XR"))
+        {
+            bool left = CheckSludgePosition(pos, Vector2.left);
+            bool right = CheckSludgePosition(pos, Vector2.right);
+            if (left && !right)
+            {
+                return "-Right";
+            }
+            if (right && !left)
+            {
+                return "-Left";
+            }
+            return "-Middle";
+        }
+        return "";
+    }
 
+    public bool CheckSludgePosition(Vector2 pos, Vector2 dir)
+    {
+        RaycastHit2D hitInfo = Physics2D.Raycast(pos + dir, Vector2.zero);
+        if (hitInfo.collider != null)
+        {
+            if (hitInfo.collider.GetComponent<SludgeTile>() != null)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void ChangeTile(Vector2 pos, string to)
