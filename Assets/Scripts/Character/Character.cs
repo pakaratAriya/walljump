@@ -26,9 +26,11 @@ public class Character : Unit {
     public int coin = 0;
     public int gem = 0;
     public bool notPlay = false;
+    SpriteRenderer sr;
 
 	// Use this for initialization
 	void Awake () {
+        sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         ch = GetComponentInChildren<CharacterHelper>();
@@ -260,6 +262,33 @@ public class Character : Unit {
         invulnerable = true;
         yield return new WaitForSeconds(0.2f);
         invulnerable = false;
+    }
+
+    public IEnumerator InvincibleEffect(float duration)
+    {
+        bool decreaseAlpha = true;
+        float changeSpeed = 5 * Time.deltaTime;
+        while(invulnerable)
+        {
+            if (decreaseAlpha)
+            {
+                sr.color = new Color(sr.color.r, sr.color.g - changeSpeed, sr.color.b - changeSpeed);
+            }
+            else
+            {
+                sr.color = new Color(sr.color.r , sr.color.g + changeSpeed, sr.color.b + changeSpeed);
+            }
+            if(sr.color.g <= 0)
+            {
+                decreaseAlpha = false;
+            }
+            if(sr.color.g > 0.6)
+            {
+                decreaseAlpha = true;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        sr.color = new Color(1, 1, 1);
     }
 
     private void Slide()
