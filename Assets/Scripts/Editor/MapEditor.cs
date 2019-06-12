@@ -10,8 +10,9 @@ public class MapEditor : Editor {
     GameObject[] prefabs;
     GameObject[] indTiles;
     GameObject selectedPrefab;
-    bool editMode = true;
+    public bool editMode = true;
     Map map;
+    string drawingIndependentTileName = "tile";
     List<GameObject> spawnedGo = new List<GameObject>();
     List<MovingDirection> movingDir = new List<MovingDirection>()
     {
@@ -34,7 +35,6 @@ public class MapEditor : Editor {
         Selection.activeGameObject = FindObjectOfType<Map>().gameObject;
         ActiveEditorTracker.sharedTracker.isLocked = true;
         sceneCam = GameObject.Find("SceneCamera");
-        Debug.Log(sceneCam.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0,1,0)));
     }
 
   [MenuItem("Window/Map Editor/Disable %l")]
@@ -285,15 +285,24 @@ public class MapEditor : Editor {
                 return null;
             }
         }
-        string myTile = "independentTiles/" + map.AssessTile(pos);
-        IndependentBlock myObj = Resources.Load<IndependentBlock>(myTile);
-        IndependentBlock myGo = (IndependentBlock)PrefabUtility.InstantiatePrefab(myObj);
-        myGo.transform.position = new Vector3(pos.x, pos.y, 0);
-        myGo.transform.parent = map.transform;
-        spawnedGo.Add(myGo.gameObject);
+        if (drawingIndependentTileName == "tile")
+        {
+            string myTile = "independentTiles/" + map.AssessTile(pos);
+            IndependentBlock myObj = Resources.Load<IndependentBlock>(myTile);
+            IndependentBlock myGo = (IndependentBlock)PrefabUtility.InstantiatePrefab(myObj);
+            myGo.transform.position = new Vector3(pos.x, pos.y, 0);
+            myGo.transform.parent = map.transform;
+            spawnedGo.Add(myGo.gameObject);
 
-        ChangeAroundATile(pos);
-        return myGo.gameObject;
+            ChangeAroundATile(pos);
+            return myGo.gameObject;
+        }
+        else
+        {
+
+        }
+        return null;
+        
     }
 
     private void ChangeAroundATile(Vector2 pos)
@@ -384,11 +393,29 @@ public class MapEditor : Editor {
     private void DrawTileEditor()
     {
         GUILayout.BeginHorizontal();
-        GUI.backgroundColor = Color.green;
-        Texture prefabTexture = AssetPreview.GetAssetPreview(Resources.Load("independentTiles/N-N"));
-        GUILayout.Box(prefabTexture, GUILayout.Width(70), GUILayout.Height(70));
+        if (drawingIndependentTileName == "tile")
         {
-            
+            GUI.backgroundColor = Color.green;
+        }
+        else
+        {
+            GUI.backgroundColor = Color.grey;
+        }
+        Texture prefabTexture = AssetPreview.GetAssetPreview(Resources.Load("independentTiles/N-N"));
+        if(GUILayout.Button(prefabTexture, GUILayout.Width(70), GUILayout.Height(70))){
+            drawingIndependentTileName = "tile";
+        }
+        if (drawingIndependentTileName == "tile")
+        {
+            GUI.backgroundColor = Color.grey;
+        }
+        else
+        {
+            GUI.backgroundColor = Color.green;
+        }
+        if(GUILayout.Button("sludge", GUILayout.Width(70), GUILayout.Height(70)))
+        {
+            drawingIndependentTileName = "sludge";
         }
         GUILayout.EndHorizontal();
     }
