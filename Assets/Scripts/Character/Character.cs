@@ -25,9 +25,9 @@ public class Character : Unit {
     public CharacterHelper ch;
     public int coin = 0;
     public int gem = 0;
-    public bool notPlay = false;
+    internal bool notPlay = false;
     SpriteRenderer sr;
-
+    public static bool STARTGAME = false;
 	// Use this for initialization
 	void Awake () {
         sr = GetComponent<SpriteRenderer>();
@@ -42,7 +42,7 @@ public class Character : Unit {
 	// Update is called once per frame
 	void Update () {
        
-        if (dead || notPlay)
+        if (dead || notPlay || !STARTGAME)
         {
             return;
         }
