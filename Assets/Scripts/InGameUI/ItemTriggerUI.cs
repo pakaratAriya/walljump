@@ -10,7 +10,7 @@ public class ItemTriggerUI : MonoBehaviour
 
     public void OnClickTrigger()
     {
-        if (!isUsed)
+        if (!isUsed && Character.STARTGAME)
         {
             Image img = item.GetComponent<Image>();
             if (img)
