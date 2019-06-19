@@ -15,9 +15,14 @@ public class LevelManager : MonoBehaviour {
     public static bool STARTGAME = false;
     public static int LV_INDEX = 0;
     public static List<string> ALL_LEVEL;
-
+    public SoundHelper soundHelperPref;
+    
     private void Start()
     {
+        if (SoundHelper.sh == null)
+        {
+            SoundHelper sh = Instantiate<SoundHelper>(soundHelperPref);
+        }
         levelManager = this;
         levelName = SceneManager.GetActiveScene().name;
     }
@@ -46,6 +51,7 @@ public class LevelManager : MonoBehaviour {
 
     public void NextLevel()
     {
+        SoundHelper.PlayClickSfx();
         if (ALL_LEVEL.Count > LV_INDEX)
         {
             SceneManager.LoadScene(ALL_LEVEL[LV_INDEX++]);
@@ -58,16 +64,19 @@ public class LevelManager : MonoBehaviour {
 
     public void RetryLevel()
     {
+        SoundHelper.PlayClickSfx();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void LevelSelect()
     {
+        SoundHelper.PlayClickSfx();
         SceneManager.LoadScene("LevelSelect");
     }
 
     public void MainMenu()
     {
+        SoundHelper.PlayClickSfx();
         SceneManager.LoadScene("MenuScene");
     }
 }

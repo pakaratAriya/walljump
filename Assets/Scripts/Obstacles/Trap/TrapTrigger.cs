@@ -42,6 +42,7 @@ public class TrapTrigger : MonoBehaviour {
     {
         yield return new WaitForSeconds(1.5f);
         anim.SetTrigger("StartExplode");
+        SoundHelper.PlayMineExplosionSfx();
         yield return new WaitForSeconds(0.5f);
         deathZone.enable = true;
         deathZone.GetComponent<Rigidbody2D>().simulated = true;

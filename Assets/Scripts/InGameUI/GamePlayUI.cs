@@ -14,6 +14,7 @@ public class GamePlayUI : MonoBehaviour
 
     public void PauseGame()
     {
+        SoundHelper.PlayClickSfx();
         PauseMenu.SetActive(true);
         Time.timeScale = 0;
         ch.notPlay = true;
@@ -21,6 +22,7 @@ public class GamePlayUI : MonoBehaviour
 
     public void ResumeGame()
     {
+        SoundHelper.PlayClickSfx();
         PauseMenu.SetActive(false);
         Time.timeScale = 1;
         ch.notPlay = false;

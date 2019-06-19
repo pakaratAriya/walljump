@@ -44,6 +44,7 @@ public class LevelName : MonoBehaviour
     public void LoadLevel()
     {
         LevelManager.LV_INDEX = levelIndex;
+        SoundHelper.PlayClickSfx();
         SceneManager.LoadScene(name);
     }
 }

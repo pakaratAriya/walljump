@@ -26,6 +26,7 @@ public class Gem : Pickup
     {
         if (!player.dead)
         {
+            SoundHelper.PlayGemSfx();
             player.gem++;
             ParticleSystem pickupPar = PoolManager.Spawn("CoinParticle");
             pickupPar.transform.position = transform.position;
