@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8027289864922753076}
   - component: {fileID: 8027289864922753077}
   - component: {fileID: 8027289864922753082}
+  - component: {fileID: 8787717732136604037}
   m_Layer: 5
   m_Name: ShopButtonUI
   m_TagString: Untagged
@@ -116,9 +117,34 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8027289864922753077}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8787717732136604037}
+        m_MethodName: SelectItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &8787717732136604037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8027289864922753080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b76a2aad39306a44925057761ba7e93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  img: {fileID: 8027289866086473287}
+  priceTxt: {fileID: 8027289865942526238}
 --- !u!1 &8027289865353321876
 GameObject:
   m_ObjectHideFlags: 0

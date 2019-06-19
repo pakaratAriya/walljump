@@ -25,7 +25,9 @@ public class Character : Unit {
     public CharacterHelper ch;
     public int coin = 0;
     public int gem = 0;
+    internal bool falling = false;
     internal bool notPlay = false;
+    public float fallingSpeed = 2;
     SpriteRenderer sr;
 	// Use this for initialization
 	void Awake () {
@@ -62,7 +64,7 @@ public class Character : Unit {
             DebugLineSize();
             StartCharging();
         }
-        
+    
         if (Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0))
         {
             
@@ -123,6 +125,23 @@ public class Character : Unit {
         } else
         {
             anim.SetBool("Slide", false);
+        }
+
+        if (falling)
+        {
+            transform.Translate(0, -fallingSpeed * Time.deltaTime, 0);
+            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 0.5f);
+            bool noSludge = true;
+            foreach(Collider2D col in cols)
+            {
+                if (col.GetComponent<SludgeTile>())
+                {
+                    noSludge = false;
+                    break;
+                }
+            }
+            if (noSludge)
+                falling = false;
         }
 	}
 

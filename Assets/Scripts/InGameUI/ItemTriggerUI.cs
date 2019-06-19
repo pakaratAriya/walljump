@@ -8,12 +8,22 @@ public class ItemTriggerUI : MonoBehaviour
     public InGameItem item;
     public bool isUsed = false;
 
+    private void Start()
+    {
+        Image img = item.GetComponent<Image>();
+        if (img)
+        {
+            img.sprite = item.item.itemImg;
+        }
+    }
+
     public void OnClickTrigger()
     {
-        if (!isUsed && LevelManager.STARTGAME)
+        if (item.item.numOfUses > 0 && LevelManager.STARTGAME)
         {
             Image img = item.GetComponent<Image>();
-            if (img)
+            item.item.numOfUses--;
+            if (img && item.item.numOfUses == 0)
             {
                 img.sprite = null;
             }

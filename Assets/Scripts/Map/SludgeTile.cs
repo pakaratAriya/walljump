@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class SludgeTile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnCollisionEnter2D(Collision2D col)
     {
-        
+        if (col.collider.GetComponent<Character>())
+        {
+            col.collider.GetComponent<Character>().falling = true;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
