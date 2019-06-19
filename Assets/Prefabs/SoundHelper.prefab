@@ -45,11 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickedSfx: {fileID: 8300000, guid: e7bc71577db67c149bfcb725a07b0bb2, type: 3}
-  deathSfx: {fileID: 8300000, guid: dc3c1f3309a66b14191378cab52f65e2, type: 3}
-  jumpSfx: {fileID: 0}
+  deathSfx: {fileID: 8300000, guid: f442300552bcf0141ba554d1ad0a6808, type: 3}
+  jumpSfx: {fileID: 8300000, guid: 0373b5e9bf11cbb46832130a49977d55, type: 3}
   mineExplosionSfx: {fileID: 8300000, guid: 074cf94e70c20624aa29258b3f604b0a, type: 3}
   postJumpSfx: {fileID: 8300000, guid: f1be37eb59120094ba96633885f9aea6, type: 3}
-  successSfx: {fileID: 8300000, guid: bd052abccd50d374989b336b0d621b3c, type: 3}
+  gemSfx: {fileID: 8300000, guid: bd052abccd50d374989b336b0d621b3c, type: 3}
 --- !u!82 &2036341792550699256
 AudioSource:
   m_ObjectHideFlags: 0
