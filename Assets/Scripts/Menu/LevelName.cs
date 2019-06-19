@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class LevelName : MonoBehaviour
 {
     private string name;
+    public string nextLevel;
     public Text levelTxt;
     private int levelIndex;
     [SerializeField]
@@ -27,11 +28,12 @@ public class LevelName : MonoBehaviour
         
     }
 
-    public void SetLevelName(string n, int i)
+    public void SetLevelName(string n, int i, string nextLv)
     {
         name = n;
         levelIndex = i + 1;
         levelTxt.text = "" + levelIndex;
+        nextLevel = nextLv;
         SetGem();
     }
     public string GetLevelName()
@@ -41,6 +43,7 @@ public class LevelName : MonoBehaviour
 
     public void LoadLevel()
     {
+        LevelManager.LV_INDEX = levelIndex;
         SceneManager.LoadScene(name);
     }
 }

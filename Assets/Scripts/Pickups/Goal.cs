@@ -34,12 +34,13 @@ public class Goal : MonoBehaviour {
     }
 
     void EndLevel(){
-        SceneManager.LoadScene("MenuScene");
+        //SceneManager.LoadScene("MenuScene");
         int c = PlayerPrefs.GetInt("Coins");
         PlayerPrefs.SetInt("Coins", c + ch.coin);
-	foreach(string gem in gemArray){
+	    foreach(string gem in gemArray){
             PlayerPrefs.SetInt(gem, 1);
         }
+        LevelManager.CompleteLevel(ch.coin);
     }
 
 
