@@ -23,7 +23,7 @@ public class StartGameUI : MonoBehaviour
         }
         else
         {
-            Character.STARTGAME = true;
+            LevelManager.STARTGAME = true;
             gameObject.SetActive(false);
         }
     }

@@ -27,7 +27,6 @@ public class Character : Unit {
     public int gem = 0;
     internal bool notPlay = false;
     SpriteRenderer sr;
-    public static bool STARTGAME = false;
 	// Use this for initialization
 	void Awake () {
         sr = GetComponent<SpriteRenderer>();
@@ -42,7 +41,7 @@ public class Character : Unit {
 	// Update is called once per frame
 	void Update () {
        
-        if (dead || notPlay || !STARTGAME)
+        if (dead || notPlay || !LevelManager.STARTGAME)
         {
             return;
         }
@@ -400,7 +399,8 @@ public class Character : Unit {
     public IEnumerator RestartGame()
     {
         yield return new WaitForSeconds(2);
-        MapManager.PlayerDie();
+        LevelManager.FailLevel();
+        //MapManager.PlayerDie();
     }
 
     public void ResetState()
