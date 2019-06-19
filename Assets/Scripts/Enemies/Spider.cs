@@ -8,12 +8,15 @@ public class Spider : Enemy {
     public MoveDirection modeDirection;
     public float distance = 3f;
     public float speed = 3f;
+    SpriteRenderer sr;
 	// Use this for initialization
 	void Start () {
+        sr = GetComponent<SpriteRenderer>();
         startPoint = transform.position;
         if(modeDirection == MoveDirection.up)
         {
             endPoint = startPoint + Vector3.up * distance;
+            transform.eulerAngles = Vector3.forward * 90;
         }
         else
         {
@@ -31,11 +34,13 @@ public class Spider : Enemy {
             {
                 if (plus)
                 {
-                    transform.Translate(0, Time.deltaTime * speed, 0);
+                    transform.Translate(Time.deltaTime * speed,0 , 0);
+                    sr.flipX = false;
                 }
                 else
                 {
-                    transform.Translate(0, -Time.deltaTime * speed, 0);
+                    transform.Translate(-Time.deltaTime * speed, 0, 0);
+                    sr.flipX = true;
                 }
                 if (plus && transform.position.y > endPoint.y)
                     plus = false;
@@ -52,10 +57,12 @@ public class Spider : Enemy {
                 if (plus)
                 {
                     transform.Translate(Time.deltaTime * speed, 0 , 0);
+                    sr.flipX = false;
                 }
                 else
                 {
                     transform.Translate(-Time.deltaTime * speed, 0, 0);
+                    sr.flipX = true;
                 }
                 if (plus && transform.position.x > endPoint.x)
                     plus = false;
