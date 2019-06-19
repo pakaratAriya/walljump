@@ -7,12 +7,14 @@ public class InGamePauseUI : MonoBehaviour
 {
     public void RetryButton()
     {
+        SoundHelper.PlayClickSfx();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1;
     }
 
     public void GoMainMenu()
     {
+        SoundHelper.PlayClickSfx();
         SceneManager.LoadScene("MenuScene");
         Time.timeScale = 1;
     }

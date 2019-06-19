@@ -351,6 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d439995a7ce528b4981c4ecfea8e2c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextLevel: 
   levelTxt: {fileID: 7515201633527230912}
   gemUIs:
   - {fileID: 7835480571638066116}
@@ -358,6 +359,7 @@ MonoBehaviour:
   - {fileID: 7835480571457704043}
   emptySpr: {fileID: 21300000, guid: a2588811fb0938a4ca28af464ec1d437, type: 3}
   gemSpr: {fileID: 21300000, guid: c3d941f2101b53349aa2684433b3c95d, type: 3}
+  clickSfx: {fileID: 8300000, guid: e7bc71577db67c149bfcb725a07b0bb2, type: 3}
 --- !u!1001 &2441345935081725292
 PrefabInstance:
   m_ObjectHideFlags: 0

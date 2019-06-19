@@ -192,6 +192,7 @@ public class Character : Unit {
         rb.velocity = Vector3.zero;
         transform.localScale = new Vector3(direction, 1, 1);
         dashing = false;
+        SoundHelper.PlayPostJumpSfx();
     }
 
     IEnumerator ClimbUp(Vector3 des)
@@ -221,6 +222,7 @@ public class Character : Unit {
     {
         if (closeWall && charging && !climbing)
         {
+            SoundHelper.PlayJumpSfx();
             onStand = false;
             GetComponent<TrailRenderer>().enabled = false;
             anim.SetBool("Charging", false);
@@ -387,7 +389,7 @@ public class Character : Unit {
     private void HeroDie()
     {
         anim.speed = 1;
-
+        SoundHelper.PlayDeathSfx();
         GetComponent<TrailRenderer>().enabled = false;
         rb.freezeRotation = false;
         rb.AddTorque(10 * transform.localScale.x);
