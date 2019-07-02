@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clickedSfx: {fileID: 8300000, guid: e7bc71577db67c149bfcb725a07b0bb2, type: 3}
   deathSfx: {fileID: 8300000, guid: f442300552bcf0141ba554d1ad0a6808, type: 3}
-  jumpSfx: {fileID: 8300000, guid: 0373b5e9bf11cbb46832130a49977d55, type: 3}
+  jumpSfx: {fileID: 8300000, guid: b9e229b1ac41ffb439ffa4e94d04b527, type: 3}
   mineExplosionSfx: {fileID: 8300000, guid: 074cf94e70c20624aa29258b3f604b0a, type: 3}
   postJumpSfx: {fileID: 8300000, guid: f1be37eb59120094ba96633885f9aea6, type: 3}
   gemSfx: {fileID: 8300000, guid: bd052abccd50d374989b336b0d621b3c, type: 3}
