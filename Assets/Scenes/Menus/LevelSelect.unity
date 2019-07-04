@@ -387,10 +387,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - GameTestGym
-  - GameTestGym
-  - GameTestGym
   - KP_Lvl1
+  - KP_Lvl2
+  - KP_Lvl3
   levelUiPref: {fileID: 25288584679518470, guid: e1c1a7193eaad1d4299ace61fd474f5c,
     type: 3}
 --- !u!1001 &1477582287
