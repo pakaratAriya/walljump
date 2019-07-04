@@ -12,6 +12,8 @@ public class SoundHelper : MonoBehaviour
     public AudioClip mineExplosionSfx;
     public AudioClip postJumpSfx;
     public AudioClip gemSfx;
+    public AudioClip coinSfx;
+    public AudioClip successSfx;
 
     private void Awake()
     {
@@ -62,5 +64,17 @@ public class SoundHelper : MonoBehaviour
     {
         if (sh.gemSfx)
             sh.audioS.PlayOneShot(sh.gemSfx);
+    }
+
+    public static void PlayCoinSfx()
+    {
+        if (sh.coinSfx)
+            sh.audioS.PlayOneShot(sh.coinSfx);
+    }
+
+    public static void PlaySuccessSfx()
+    {
+        if (sh.successSfx)
+            sh.audioS.PlayOneShot(sh.successSfx);
     }
 }

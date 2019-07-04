@@ -8,6 +8,7 @@ public class Coin : Pickup {
     {
         if (!player.dead)
         {
+            SoundHelper.PlayCoinSfx();
             player.coin++;
             ParticleSystem pickupPar = PoolManager.Spawn("CoinParticle");
             pickupPar.transform.position = transform.position;

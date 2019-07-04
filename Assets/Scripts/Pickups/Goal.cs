@@ -20,6 +20,7 @@ public class Goal : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D col)
     {
 	if(col.GetComponent<Character>()!=null){
+            SoundHelper.PlaySuccessSfx();
             ch = col.GetComponent<Character>();
             ch.transform.parent = this.transform;
             ch.transform.position = transform.position;

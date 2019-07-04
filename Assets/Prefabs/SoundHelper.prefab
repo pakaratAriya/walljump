@@ -50,6 +50,8 @@ MonoBehaviour:
   mineExplosionSfx: {fileID: 8300000, guid: 074cf94e70c20624aa29258b3f604b0a, type: 3}
   postJumpSfx: {fileID: 8300000, guid: f1be37eb59120094ba96633885f9aea6, type: 3}
   gemSfx: {fileID: 8300000, guid: bd052abccd50d374989b336b0d621b3c, type: 3}
+  coinSfx: {fileID: 8300000, guid: b86edfd14cba08f42a1e1f5e90003b42, type: 3}
+  successSfx: {fileID: 8300000, guid: 767eddeb5fc33854fa3e9df098de6365, type: 3}
 --- !u!82 &2036341792550699256
 AudioSource:
   m_ObjectHideFlags: 0
