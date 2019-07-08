@@ -28,4 +28,9 @@ public class StartGame : MonoBehaviour {
         }
         SoundHelper.PlayClickSfx();
     }
+
+    public void GoToShop()
+    {
+        SceneManager.LoadScene("Shop");
+    }
 }

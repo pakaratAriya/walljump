@@ -9,5 +9,5 @@ public class ItemData : ScriptableObject
     public string name;
     public float price;
     public int numOfUses = 1;
-    
+    public InGameItem myItem;
 }

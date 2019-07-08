@@ -20,5 +20,6 @@ public class ItemInShop : MonoBehaviour
     public void SelectItem()
     {
         selectedImg.sprite = myItem.itemImg;
+        ItemManager.SetInGameItem(myItem.myItem);
     }
 }
