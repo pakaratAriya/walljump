@@ -10,7 +10,6 @@ public class InGameItem : MonoBehaviour
     {
         myChar = FindObjectOfType<Character>();
     }
-
     public virtual void TriggerItem()
     {
 

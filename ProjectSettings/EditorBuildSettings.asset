@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/KevinLevels/KP_Lvl3.unity
     guid: 9ce21a22b3007464c977b66bb1ec26e7
+  - enabled: 1
+    path: Assets/Scenes/KevinLevels/KP_Lvl1.unity
+    guid: 7231b388c732b7e4b996b8584b81c777
+  - enabled: 1
+    path: Assets/Scenes/KevinLevels/KP_Lvl2.unity
+    guid: 34f274c150bf532428cf6ceb21eff1c5
   m_configObjects: {}

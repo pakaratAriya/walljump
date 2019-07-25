@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelSelect : MonoBehaviour
@@ -24,5 +25,11 @@ public class LevelSelect : MonoBehaviour
             img.rectTransform.localPosition = new Vector2(-140 + (70 * (i % 5)), 160 - (80 * (i / 5)));
             LevelManager.ALL_LEVEL = levels;
         }
+    }
+
+    public void BackToMain()
+    {
+        SceneManager.LoadScene("MenuScene");
+
     }
 }

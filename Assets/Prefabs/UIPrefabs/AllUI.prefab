@@ -639,36 +639,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 7768716147626369790, guid: 179f266da45c313419436f470b3bd811,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7768716147626369790, guid: 179f266da45c313419436f470b3bd811,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 6568484203831810255}
-    - target: {fileID: 7768716147626369790, guid: 179f266da45c313419436f470b3bd811,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ResumeGame
-      objectReference: {fileID: 0}
-    - target: {fileID: 7768716147626369790, guid: 179f266da45c313419436f470b3bd811,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7768716147626369790, guid: 179f266da45c313419436f470b3bd811,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 7768716147626369790, guid: 179f266da45c313419436f470b3bd811,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2593876532768015363, guid: 179f266da45c313419436f470b3bd811,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -695,6 +665,36 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2593876532768015363, guid: 179f266da45c313419436f470b3bd811,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7768716147626369790, guid: 179f266da45c313419436f470b3bd811,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7768716147626369790, guid: 179f266da45c313419436f470b3bd811,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6568484203831810255}
+    - target: {fileID: 7768716147626369790, guid: 179f266da45c313419436f470b3bd811,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResumeGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7768716147626369790, guid: 179f266da45c313419436f470b3bd811,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7768716147626369790, guid: 179f266da45c313419436f470b3bd811,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7768716147626369790, guid: 179f266da45c313419436f470b3bd811,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -1080,6 +1080,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: e7bc71577db67c149bfcb725a07b0bb2, type: 3}
     - target: {fileID: 102811507, guid: 5a966e410cb33a04985ffd28db27caa1, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055650136045681762, guid: 5a966e410cb33a04985ffd28db27caa1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4104292689589205771, guid: 5a966e410cb33a04985ffd28db27caa1,
+        type: 3}
       propertyPath: item
       value: 
       objectReference: {fileID: 0}

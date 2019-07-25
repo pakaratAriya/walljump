@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b03fa5d42cbeba449e294a2b10ad588, type: 3}
   m_Name: ReverseItem
   m_EditorClassIdentifier: 
-  itemImg: {fileID: 0}
-  name: 
+  itemImg: {fileID: 21300000, guid: fd8355492b1d4fd47bed930ada11a1f1, type: 3}
   price: 0
   numOfUses: 2
+  myItem: {fileID: 5392531199916394185, guid: 9926264ce36ee294fa6bc2866647be75, type: 3}
