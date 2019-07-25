@@ -401,6 +401,7 @@ public class Character : Unit {
             rb.gravityScale = 0;
             rb.velocity = Vector3.zero;
             dead = true;
+            LevelManager.STARTGAME = false;
         }
         
     }

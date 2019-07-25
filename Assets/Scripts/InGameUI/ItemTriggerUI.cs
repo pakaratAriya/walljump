@@ -12,14 +12,15 @@ public class ItemTriggerUI : MonoBehaviour
 
     private void Start()
     {
+        if (!ItemManager.GetInGameItem())  return; 
+        item = Instantiate<InGameItem>(ItemManager.GetInGameItem());
+        item.transform.SetParent(transform);
+        item.transform.position = transform.position;
         player = FindObjectOfType<Character>();
         numOfUse = item.item.numOfUses;
         Image img = item.GetComponent<Image>();
         if (img)
-        {
             img.sprite = item.item.itemImg;
-        }
-        item = ItemManager.GetInGameItem();
     }
 
     public void OnClickTrigger()
@@ -32,14 +33,13 @@ public class ItemTriggerUI : MonoBehaviour
         {
             Image img = item.GetComponent<Image>();
             numOfUse--;
-            if (img && item.item.numOfUses == 0)
+            if (img && numOfUse == 0)
             {
                 img.sprite = null;
+                print("cleared image");
             }
             item.TriggerItem();
-            
             isUsed = true;
         }
-    }
-    
+    }    
 }

@@ -14,6 +14,11 @@ public class ItemInShop : MonoBehaviour
     {
         myItem = iData;
         img.sprite = iData.itemImg;
+        if (PlayerPrefs.GetString("currentItem").Equals(iData.name))
+        {
+            selectedImg.sprite = myItem.itemImg;
+        }
+
         priceTxt.text = iData.price + "";
     }
 
@@ -21,5 +26,6 @@ public class ItemInShop : MonoBehaviour
     {
         selectedImg.sprite = myItem.itemImg;
         ItemManager.SetInGameItem(myItem.myItem);
+        PlayerPrefs.SetString("currentItem", myItem.name);
     }
 }

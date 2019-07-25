@@ -16,3 +16,4 @@ MonoBehaviour:
   name: invincible
   price: 100
   numOfUses: 1
+  myItem: {fileID: 4417041139176731476, guid: 187ffeb5cb9f5f742b395b8c72b4ec03, type: 3}
