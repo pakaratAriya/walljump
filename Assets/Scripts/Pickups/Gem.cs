@@ -1,28 +1,38 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Gem : Pickup
 {
-    public string gemName;
+    internal string gemName;
     private InGameGemUI gemUi;
     
     [Range(1,3)]
-    public int index = 1;
+    public int index = 0;
 
     private void Awake()
+    {
+        if (index != 0)
+        {
+            EvaluateGem(index);
+        }
+        
+    }
+
+    public void EvaluateGem(int index)
     {
         string sceneName = SceneManager.GetActiveScene().name;
         gemUi = FindObjectOfType<InGameGemUI>();
         gemName = "Gem-" + sceneName + index;
-        if (PlayerPrefs.GetInt(gemName)!=0){
+        if (PlayerPrefs.GetInt(gemName) != 0)
+        {
             gemUi.AddGem(index);
             Destroy(gameObject);
         }
     }
 
-    protected override void DoEffect(Character player)
+    public override void DoEffect(Character player)
     {
         if (!player.dead)
         {
@@ -30,7 +40,7 @@ public class Gem : Pickup
             player.gem++;
             ParticleSystem pickupPar = PoolManager.Spawn("CoinParticle");
             pickupPar.transform.position = transform.position;
-            MapManager.Despawn(GetComponent<Tile>());
+            StartCoroutine(DestroyPickUpObject());
             FindObjectOfType<Goal>().AddGem(gemName);
             gemUi.AddGem(index);
         }

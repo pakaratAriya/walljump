@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 1131389672797075443}
   - component: {fileID: 2438025494211651299}
   - component: {fileID: 2050152921446176170}
+  - component: {fileID: 6752128837209147875}
   m_Layer: 0
-  m_Name: gem
+  m_Name: Gem
   m_TagString: drawableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,7 +95,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56412d6ca9c9c2c42aa04308ae30a1df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gemName: 
+  anim: {fileID: 0}
+  rb: {fileID: 6752128837209147875}
+  sr: {fileID: 8587659886691157706}
   index: 2
 --- !u!114 &2438025494211651299
 MonoBehaviour:
@@ -124,3 +127,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.35
+--- !u!50 &6752128837209147875
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7136122713889274439}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

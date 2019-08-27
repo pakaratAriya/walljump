@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -174,7 +174,6 @@ public class Character : Unit {
         {
             if (dashing)
             {
-                print(col.collider.transform.position.y - transform.position.y);
                 if(col.collider.transform.position.y - transform.position.y <= 0.8f)
                 {
                     anim.SetBool("Dash", false);
@@ -191,7 +190,7 @@ public class Character : Unit {
         {
             return;
         }
-
+        /*
         if (col.collider.GetComponent<StandablePath>() != null)
         {
             direction *= -1;
@@ -203,7 +202,15 @@ public class Character : Unit {
             StartCoroutine(ClimbUp(col.collider.transform.position + Vector3.up));
         }
 
-        
+        */
+
+        if (col.collider.GetComponentInChildren<BreakableObject>())
+        {
+            if(Mathf.Abs(transform.position.y - col.transform.position.y) >= 0.3f)
+            {
+                return;
+            }
+        }
         anim.SetBool("Dash", false);
         anim.SetBool("TouchWall", true);
         closeWall = true;

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -314,6 +314,12 @@ public class MapManager : MonoBehaviour {
             tile = tilePool[name].Pop();
             tile.gameObject.SetActive(true);
         }
+        if (tile.GetComponent<Pickup>())
+        {
+            Pickup p = tile.GetComponent<Pickup>();
+            p.ResetState();
+        }
+        
         tile.transform.SetParent(findMap.transform);
         return tile;
     }
