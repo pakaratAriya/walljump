@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,8 +17,8 @@ public class Snail : Enemy {
         rightScale = -1;
         leftAngle = -90;
         rightAngle = 90;
-        leftOffset = 0.28f;
-        rightOffset = -0.28f;
+        leftOffset = 0f;
+        rightOffset = -0f;
     }
 
     private void OnEnable()
@@ -74,15 +74,21 @@ public class Snail : Enemy {
             , Vector3.up * facingDirection + Vector3.left * originalScale, 0.2f);
         if (hits.collider != null)
         {
+            /*
             if ((hits.collider.GetComponent<DeathZone>() != null && hits.collider.GetComponent<DeathZone>() != deathZone)
                 || hits.collider.GetComponent<TrapTrigger>() != null || hits.collider.GetComponent<Tile>() != null)
             {
-                //TurnBack();
+                print("detect something");
+                TurnBack();
             }
+            */
+            TurnBack();
         }
+        Debug.DrawRay(transform.position + Vector3.left * originalScale * 0.4f + Vector3.up * facingDirection * 0.55f
+            , Vector3.up * facingDirection);
         if (hitsDown.collider == null)
         {
-            //TurnBack();
+            TurnBack();
         }
 
     }

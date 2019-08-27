@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 749926048090166194}
   - component: {fileID: 197868079616468680}
   - component: {fileID: 4227804414432430950}
+  - component: {fileID: 718522754479678837}
   m_Layer: 0
   m_Name: N-3XL-3-Bottom
   m_TagString: Untagged
@@ -132,3 +133,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8569026cd7d08c42bb1cf5d4607c2b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!50 &718522754479678837
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8963374997001678711}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
