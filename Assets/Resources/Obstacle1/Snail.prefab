@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28fd9291d5fb5734a954ebe09ca47116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathZone: {fileID: 0}
+  deathZone: {fileID: 114151203861984370}
   originalScale: 0
   snailState: 0
 --- !u!50 &2891281869025453631

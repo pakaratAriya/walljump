@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,8 +16,7 @@ public class DeathZone : MonoBehaviour {
                 Character player = col.GetComponent<Character>();
                 if (col.GetComponent<Character>().dashing)
                 {
-                    GetComponent<Unit>().Die();
-                    
+                    GetComponentInParent<Unit>().Die();
                     player.EnemyJump();
                 } else
                 {
@@ -27,7 +26,7 @@ public class DeathZone : MonoBehaviour {
             {
                 if (col.GetComponent<Character>())
                 {
-                    col.GetComponent<Character>().Die();
+                    col.GetComponent<Unit>().Die();
                 }
                 
             }

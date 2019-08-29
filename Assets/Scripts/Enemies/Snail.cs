@@ -48,6 +48,7 @@ public class Snail : Enemy {
         direction = new Vector3(originalScale, 0, 0);
     }
 
+
     protected override void Update()
     {
         base.Update();
@@ -82,10 +83,10 @@ public class Snail : Enemy {
                 TurnBack();
             }
             */
-            TurnBack();
+            if(!hits.collider.GetComponent<Character>())
+                TurnBack();
         }
-        Debug.DrawRay(transform.position + Vector3.left * originalScale * 0.4f + Vector3.up * facingDirection * 0.55f
-            , Vector3.up * facingDirection);
+
         if (hitsDown.collider == null)
         {
             TurnBack();

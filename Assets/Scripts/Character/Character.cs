@@ -238,7 +238,6 @@ public class Character : Unit {
             yield return new WaitForEndOfFrame();
         }
         climbing = false;
-
     }
 
     /// <summary>
